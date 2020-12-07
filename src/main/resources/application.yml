@@ -19,3 +19,8 @@ spring:
           use_jdbc_metadata_defaults: false
     hibernate:
       ddl-auto: update
+
+jwt:
+  secret-key: jwtkey1234567890
+  exp:
+    hours: 3
