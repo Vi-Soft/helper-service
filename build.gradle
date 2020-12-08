@@ -48,6 +48,7 @@ dependencies {
 
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     implementation "io.jsonwebtoken:jjwt:${jwtVersion}"
+    implementation "org.liquibase:liquibase-core"
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'

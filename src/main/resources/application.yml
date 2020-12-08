@@ -18,7 +18,9 @@ spring:
         temp:
           use_jdbc_metadata_defaults: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+  liquibase:
+    change-log: classpath:db.changelog/changelog-master.xml
 
 jwt:
   secret-key: jwtkey1234567890

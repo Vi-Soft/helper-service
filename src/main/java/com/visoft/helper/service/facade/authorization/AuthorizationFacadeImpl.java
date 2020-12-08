@@ -6,6 +6,8 @@ import com.visoft.helper.service.facade.user.UserFacade;
 import com.visoft.helper.service.persistance.entity.Token;
 import com.visoft.helper.service.persistance.entity.user.User;
 import com.visoft.helper.service.transport.dto.authorization.LoginDto;
+import com.visoft.helper.service.transport.dto.authorization.LoginOutcomeDto;
+import com.visoft.helper.service.transport.mapper.AuthorizationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,15 +23,18 @@ public class AuthorizationFacadeImpl implements AuthorizationFacade {
     private final UserFacade userFacade;
     private final PasswordEncoder passwordEncoder;
     private final TokenFacade tokenFacade;
+    private final AuthorizationMapper authorizationMapper;
 
     @Override
-    public String login(LoginDto loginDto) {
+    public LoginOutcomeDto login(LoginDto loginDto) {
         User actor = userFacade.findByLogin(loginDto.getLogin())
                 .orElseThrow(BadCredentialException::new);
 
         validatePassword(actor, loginDto.getPassword());
 
-        return tokenFacade.save(manageToken(actor)).getToken();
+        return authorizationMapper.toDto(
+                tokenFacade.save(manageToken(actor)).getToken()
+        );
     }
 
     @Override
