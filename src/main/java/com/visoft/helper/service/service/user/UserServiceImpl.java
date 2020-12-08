@@ -1,4 +1,4 @@
-package com.visoft.helper.service.persistance.service.user;
+package com.visoft.helper.service.service.user;
 
 import com.visoft.helper.service.persistance.entity.user.User;
 import com.visoft.helper.service.persistance.repository.UserRepository;
@@ -28,5 +28,11 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<User> findByLogin(String login) {
+        return userRepository.findByLogin(login);
     }
 }

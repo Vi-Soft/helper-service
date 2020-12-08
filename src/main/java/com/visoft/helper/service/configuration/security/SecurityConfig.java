@@ -1,6 +1,6 @@
 package com.visoft.helper.service.configuration.security;
 
-import com.visoft.helper.service.persistance.service.user.UserService;
+import com.visoft.helper.service.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,9 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(
                         new StatelessAuthFilter(tokenAuthService),
                         UsernamePasswordAuthenticationFilter.class
-                ).authorizeRequests().anyRequest().authenticated()
-                .and().headers().frameOptions().sameOrigin()
-                .and().csrf().disable();
+                ).authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .csrf()
+                .disable();
 
     }
 

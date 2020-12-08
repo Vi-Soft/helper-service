@@ -1,6 +1,7 @@
-package com.visoft.helper.service.persistance.service.token;
+package com.visoft.helper.service.service.token;
 
 import com.visoft.helper.service.persistance.entity.Token;
+import com.visoft.helper.service.persistance.entity.user.User;
 import com.visoft.helper.service.persistance.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,5 +21,21 @@ public class TokenServiceImpl implements TokenService {
     @Transactional(readOnly = true)
     public Optional<Token> findByToken(String token) {
         return tokenRepository.findByToken(token);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Token> findByUser(User user) {
+        return tokenRepository.findByUserId(user.getId());
+    }
+
+    @Override
+    public Token save(Token token) {
+        return tokenRepository.save(token);
+    }
+
+    @Override
+    public void deleteByUser(User user) {
+        tokenRepository.deleteByUser(user);
     }
 }

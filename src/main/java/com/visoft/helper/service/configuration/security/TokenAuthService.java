@@ -1,8 +1,8 @@
 package com.visoft.helper.service.configuration.security;
 
+import com.visoft.helper.service.facade.token.TokenFacade;
+import com.visoft.helper.service.facade.user.UserFacade;
 import com.visoft.helper.service.persistance.entity.Token;
-import com.visoft.helper.service.persistance.service.token.TokenService;
-import com.visoft.helper.service.persistance.service.user.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,8 @@ public class TokenAuthService {
 
     private static final String AUTHENTICATION_HEADER_NAME = "Authorization";
     private static final String BEARER_TOKEN_PREFIX = "Bearer";
-    private final TokenService tokenService;
-    private final UserService userService;
+    private final TokenFacade tokenFacade;
+    private final UserFacade userFacade;
     private final TokenHandler tokenHandler;
 
     private static String extractBearerTokenValue(String string) {
@@ -46,7 +46,7 @@ public class TokenAuthService {
     private Optional<Authentication> authenticationByTokenValue(String tokenValue) {
         return Optional.of(tokenValue)
                 .flatMap(tokenHandler::extractUserId)
-                .flatMap(userService::findById)
+                .flatMap(userFacade::findById)
                 .map(UserAuthentication::new);
     }
 
@@ -57,7 +57,7 @@ public class TokenAuthService {
     private Optional<String> getTokenFromRequest(@NonNull HttpServletRequest request) {
         final String authenticationHeader = TokenAuthService.pullToken(request);
 
-        return tokenService.findByToken(extractBearerTokenValue(authenticationHeader))
+        return tokenFacade.findByToken(extractBearerTokenValue(authenticationHeader))
                 .filter(this::isNotExpired)
                 .map(Token::getToken);
     }

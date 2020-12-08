@@ -1,15 +1,17 @@
-package com.visoft.helper.service.persistance.repository;
+package com.visoft.helper.service.service.token;
 
 import com.visoft.helper.service.persistance.entity.Token;
 import com.visoft.helper.service.persistance.entity.user.User;
 
 import java.util.Optional;
 
-public interface TokenRepository extends GeneralRepository<Token> {
+public interface TokenService {
 
     Optional<Token> findByToken(String token);
 
-    Optional<Token> findByUserId(Long id);
+    Optional<Token> findByUser(User user);
+
+    Token save(Token token);
 
     void deleteByUser(User user);
 }
