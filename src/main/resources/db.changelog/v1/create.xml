@@ -56,6 +56,72 @@
             </column>
         </createTable>
 
+        <createTable tableName="application">
+            <column name="id"
+                    type="bigint"
+                    autoIncrement="true">
+                <constraints primaryKey="true"
+                             primaryKeyName="application_pkey"
+                             nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="folder">
+            <column name="id"
+                    type="bigint"
+                    autoIncrement="true">
+                <constraints primaryKey="true"
+                             primaryKeyName="folder_pkey"
+                             nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="root" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parent_id" type="bigint">
+                <constraints nullable="true"
+                             foreignKeyName="folder_folder_parent_id_fk"
+                             referencedTableName="folder"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="application_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="application_folder_application_id_fk"
+                             referencedTableName="application"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="file">
+            <column name="id"
+                    type="bigint"
+                    autoIncrement="true">
+                <constraints primaryKey="true"
+                             primaryKeyName="file_pkey"
+                             nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="path" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="folder_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="folder_file_folder_id_fk"
+                             referencedTableName="file"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
         <loadData tableName="users" file="classpath:db.changelog/population/users.csv"/>
         <loadData tableName="user_role" file="classpath:db.changelog/population/user_role.csv"/>
 
