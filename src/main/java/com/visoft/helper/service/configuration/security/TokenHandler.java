@@ -43,7 +43,7 @@ public class TokenHandler {
             Claims body = claimsJws.getBody();
             return Optional
                     .ofNullable(body.get("userId"))
-                    .map(userId -> (Long) userId);
+                    .map(userId -> (long) (int) userId);
 
         } catch (RuntimeException e) {
             return Optional.empty();

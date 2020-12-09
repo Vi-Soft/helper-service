@@ -11,7 +11,6 @@ public interface TokenFacade {
 
     Token updateExistedToken(Token token, User user);
 
-
     Token createNewToken(User user);
 
     Token save(Token token);

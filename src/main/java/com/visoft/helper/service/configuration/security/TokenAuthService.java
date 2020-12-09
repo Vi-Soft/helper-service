@@ -24,19 +24,6 @@ public class TokenAuthService {
     private final UserFacade userFacade;
     private final TokenHandler tokenHandler;
 
-    private static String extractBearerTokenValue(String string) {
-        return string != null ?
-                string.startsWith(BEARER_TOKEN_PREFIX) ?
-                        string.substring(BEARER_TOKEN_PREFIX.length()).trim() :
-                        string :
-                "";
-    }
-
-    private static String pullToken(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader(TokenAuthService.AUTHENTICATION_HEADER_NAME))
-                .orElseGet(() -> TokenAuthService.BEARER_TOKEN_PREFIX + " " + request.getParameter("token"));
-    }
-
     public Optional<Authentication> getAuthentication(@NonNull HttpServletRequest request) {
         return getTokenFromRequest(request)
                 .map(this::authenticationByTokenValue)
@@ -60,6 +47,19 @@ public class TokenAuthService {
         return tokenFacade.findByToken(extractBearerTokenValue(authenticationHeader))
                 .filter(this::isNotExpired)
                 .map(Token::getToken);
+    }
+
+    private static String extractBearerTokenValue(String string) {
+        return string != null ?
+                string.startsWith(BEARER_TOKEN_PREFIX) ?
+                        string.substring(BEARER_TOKEN_PREFIX.length()).trim() :
+                        string :
+                "";
+    }
+
+    private static String pullToken(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader(TokenAuthService.AUTHENTICATION_HEADER_NAME))
+                .orElseGet(() -> TokenAuthService.BEARER_TOKEN_PREFIX + " " + request.getParameter("token"));
     }
 
     private boolean isNotExpired(Token token) {

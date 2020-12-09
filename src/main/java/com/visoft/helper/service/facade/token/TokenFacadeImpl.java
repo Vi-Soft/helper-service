@@ -1,7 +1,7 @@
 package com.visoft.helper.service.facade.token;
 
 import com.visoft.helper.service.configuration.security.TokenHandler;
-import com.visoft.helper.service.exception.TokenAlreadyExistsException;
+import com.visoft.helper.service.exception.token.TokenAlreadyExistsException;
 import com.visoft.helper.service.persistance.entity.Token;
 import com.visoft.helper.service.persistance.entity.user.User;
 import com.visoft.helper.service.service.token.TokenService;
@@ -75,13 +75,13 @@ public class TokenFacadeImpl implements TokenFacade {
     }
 
     private void existsByTokenUnsafe(String token) {
-        if (!tokenService.existsByToken(token)) {
+        if (tokenService.existsByToken(token)) {
             throw new TokenAlreadyExistsException();
         }
     }
 
     private void existsByUserUnsafe(User user) {
-        if (!tokenService.existsByUser(user)) {
+        if (tokenService.existsByUser(user)) {
             throw new TokenAlreadyExistsException();
         }
     }

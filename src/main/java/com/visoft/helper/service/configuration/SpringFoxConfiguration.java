@@ -29,7 +29,7 @@ public class SpringFoxConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.visoft.helper.service"))
+                .apis(RequestHandlerSelectors.basePackage("com.visoft"))
                 .paths(PathSelectors.any())
                 .build().apiInfo(apiInfo())
                 .securitySchemes(Lists.newArrayList(apiKey()))
