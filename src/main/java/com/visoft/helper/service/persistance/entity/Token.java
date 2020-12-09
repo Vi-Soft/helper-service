@@ -1,9 +1,7 @@
 package com.visoft.helper.service.persistance.entity;
 
 import com.visoft.helper.service.persistance.entity.user.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -15,8 +13,6 @@ import java.time.Instant;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Token extends IdEntity {
 
     @Column(nullable = false)

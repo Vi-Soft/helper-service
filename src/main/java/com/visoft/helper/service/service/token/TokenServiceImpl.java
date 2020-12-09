@@ -38,4 +38,16 @@ public class TokenServiceImpl implements TokenService {
     public void deleteByUser(User user) {
         tokenRepository.deleteByUser(user);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByToken(String token) {
+        return tokenRepository.existsByToken(token);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByUser(User user) {
+        return tokenRepository.existsByUser(user);
+    }
 }

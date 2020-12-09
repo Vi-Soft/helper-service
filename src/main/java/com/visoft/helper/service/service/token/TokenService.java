@@ -14,4 +14,8 @@ public interface TokenService {
     Token save(Token token);
 
     void deleteByUser(User user);
+
+    boolean existsByToken(String token);
+
+    boolean existsByUser(User user);
 }

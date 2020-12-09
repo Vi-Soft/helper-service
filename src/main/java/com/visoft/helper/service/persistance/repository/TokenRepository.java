@@ -12,4 +12,8 @@ public interface TokenRepository extends GeneralRepository<Token> {
     Optional<Token> findByUserId(Long id);
 
     void deleteByUser(User user);
+
+    boolean existsByToken(String token);
+
+    boolean existsByUser(User user);
 }
