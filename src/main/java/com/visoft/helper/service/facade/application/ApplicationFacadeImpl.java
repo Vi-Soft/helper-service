@@ -5,6 +5,7 @@ import com.visoft.helper.service.persistance.entity.Application;
 import com.visoft.helper.service.service.application.ApplicationService;
 import com.visoft.helper.service.transport.dto.application.ApplicationCreateDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationOutcomeDto;
+import com.visoft.helper.service.transport.dto.application.ApplicationUpdateDto;
 import com.visoft.helper.service.transport.mapper.ApplicationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -35,6 +36,20 @@ public class ApplicationFacadeImpl implements ApplicationFacade {
     @Override
     public Application getByIdUnsafe(Long id) {
         return applicationService.findByIdUnsafe(id);
+    }
+
+    @Override
+    public ApplicationOutcomeDto update(Long id, ApplicationUpdateDto dto) {
+        Application application = applicationService.findByIdUnsafe(id);
+        validateUpdate(dto);
+        applicationMapper.toEntity(dto, application);
+        return applicationMapper.toDto(
+                applicationService.save(application)
+        );
+    }
+
+    private void validateUpdate(ApplicationUpdateDto dto) {
+        existsByNameUnsafe(dto.getName());
     }
 
     private void validateCreation(Application application) {
