@@ -9,6 +9,8 @@ import com.visoft.helper.service.transport.mapper.ApplicationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class ApplicationFacadeImpl implements ApplicationFacade {
@@ -23,6 +25,16 @@ public class ApplicationFacadeImpl implements ApplicationFacade {
         return applicationMapper.toDto(
                 applicationService.save(application)
         );
+    }
+
+    @Override
+    public List<ApplicationOutcomeDto> getAll() {
+        return applicationMapper.toDto(applicationService.findAll());
+    }
+
+    @Override
+    public Application getByIdUnsafe(Long id) {
+        return applicationService.findByIdUnsafe(id);
     }
 
     private void validateCreation(Application application) {

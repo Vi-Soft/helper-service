@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Entity
 @Getter
@@ -14,6 +15,6 @@ public class Application extends IdEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-//    @OneToOne(mappedBy = "parent")
-//    private Folder rootFolder;
+    @OneToOne(mappedBy = "parent")
+    private Folder rootFolder;
 }

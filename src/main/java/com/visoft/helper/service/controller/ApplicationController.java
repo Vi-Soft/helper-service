@@ -5,12 +5,10 @@ import com.visoft.helper.service.transport.dto.application.ApplicationCreateDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationOutcomeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("applications")
@@ -23,5 +21,11 @@ public class ApplicationController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ApplicationOutcomeDto create(@RequestBody @Valid ApplicationCreateDto dto) {
         return applicationFacade.create(dto);
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<ApplicationOutcomeDto> getAll() {
+        return applicationFacade.getAll();
     }
 }

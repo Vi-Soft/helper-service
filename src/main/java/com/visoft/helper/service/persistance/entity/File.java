@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
@@ -19,7 +19,7 @@ public class File extends IdEntity {
     @Column(nullable = false)
     private String path;
 
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "folder_id", nullable = false)
     private Folder folder;
 }
