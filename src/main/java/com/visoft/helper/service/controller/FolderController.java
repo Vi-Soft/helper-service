@@ -1,4 +1,4 @@
-package com.visoft.helper.service.controller.handler;
+package com.visoft.helper.service.controller;
 
 import com.visoft.helper.service.facade.folder.FolderFacade;
 import com.visoft.helper.service.transport.dto.folder.FolderOutcomeDto;
