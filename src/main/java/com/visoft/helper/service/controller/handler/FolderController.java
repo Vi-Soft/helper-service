@@ -4,6 +4,7 @@ import com.visoft.helper.service.facade.folder.FolderFacade;
 import com.visoft.helper.service.transport.dto.folder.FolderOutcomeDto;
 import com.visoft.helper.service.transport.dto.folder.FolderRootCreateDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class FolderController {
     private final FolderFacade folderFacade;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public FolderOutcomeDto createRoot(@RequestBody @Valid FolderRootCreateDto dto) {
         return folderFacade.createRoot(dto);
     }

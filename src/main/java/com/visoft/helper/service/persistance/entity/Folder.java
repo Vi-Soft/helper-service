@@ -24,7 +24,7 @@ public class Folder extends IdEntity {
     @JoinColumn(name = "parent_id")
     private Folder parent;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "application_id", nullable = false)
     private Application application;
 

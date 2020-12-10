@@ -5,21 +5,25 @@ import com.visoft.helper.service.transport.dto.application.ApplicationCreateDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationOutcomeDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @Mapper
-public interface ApplicationMapper {
+public abstract class ApplicationMapper {
+
+    @Autowired
+    GeneralMapper generalMapper;
 
     @Mapping(target = "name", source = "name")
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "rootFolder", ignore = true)
-    Application toEntity(ApplicationCreateDto dto);
+    @Mapping(target = "folders", ignore = true)
+    public abstract Application toEntity(ApplicationCreateDto dto);
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
-    @Mapping(target = "rootFolderId", source = "rootFolder.id")
-    ApplicationOutcomeDto toDto(Application application);
+    @Mapping(target = "folderIds", expression = "java(generalMapper.toIds(application.getFolders()))")
+    public abstract ApplicationOutcomeDto toDto(Application application);
 
-    List<ApplicationOutcomeDto> toDto(List<Application> applications);
+    public abstract List<ApplicationOutcomeDto> toDto(List<Application> applications);
 }
