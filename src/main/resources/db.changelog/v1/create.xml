@@ -83,9 +83,6 @@
             <column name="folder_order" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="root" type="boolean">
-                <constraints nullable="false"/>
-            </column>
             <column name="parent_id" type="bigint">
                 <constraints nullable="true"
                              foreignKeyName="folder_folder_parent_id_fk"

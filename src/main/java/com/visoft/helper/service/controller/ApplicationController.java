@@ -5,7 +5,6 @@ import com.visoft.helper.service.transport.dto.application.ApplicationCreateDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationOutcomeDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationUpdateDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("applications")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("hasAuthority('ADMIN')")
 public class ApplicationController {
 
     private final ApplicationFacade applicationFacade;

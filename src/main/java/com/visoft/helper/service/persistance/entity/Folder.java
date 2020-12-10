@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,9 +17,6 @@ public class Folder extends IdEntity {
     @Column(nullable = false)
     private long folderOrder;
 
-    @Column(nullable = false)
-    private boolean root;
-
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private Folder parent;
@@ -29,8 +26,8 @@ public class Folder extends IdEntity {
     private Application application;
 
     @OneToMany(mappedBy = "parent")
-    private Set<Folder> children;
+    private List<Folder> children;
 
     @OneToMany(mappedBy = "folder")
-    private Set<File> files;
+    private List<File> files;
 }

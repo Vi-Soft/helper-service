@@ -4,12 +4,12 @@ import com.visoft.helper.service.transport.dto.IdDto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
 public class ApplicationOutcomeDto extends IdDto {
 
     private String name;
-    private Set<Long> folderIds;
+    private List<Long> folderIds;
 }
