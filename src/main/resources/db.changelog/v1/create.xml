@@ -119,8 +119,5 @@
             </column>
         </createTable>
 
-        <loadData tableName="users" file="classpath:db.changelog/population/users.csv"/>
-        <loadData tableName="user_role" file="classpath:db.changelog/population/user_role.csv"/>
-
     </changeSet>
 </databaseChangeLog>
