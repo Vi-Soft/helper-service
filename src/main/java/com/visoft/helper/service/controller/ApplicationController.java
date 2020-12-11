@@ -36,4 +36,9 @@ public class ApplicationController {
     public List<ApplicationOutcomeDto> getAll() {
         return applicationFacade.getAll();
     }
+
+    @GetMapping("{id}")
+    public ApplicationOutcomeDto getById(@PathVariable("id") Long id) {
+        return applicationFacade.getById(id);
+    }
 }

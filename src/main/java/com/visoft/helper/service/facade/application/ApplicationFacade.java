@@ -16,4 +16,6 @@ public interface ApplicationFacade {
     Application getByIdUnsafe(Long id);
 
     ApplicationOutcomeDto update(Long id, ApplicationUpdateDto dto);
+
+    ApplicationOutcomeDto getById(Long id);
 }

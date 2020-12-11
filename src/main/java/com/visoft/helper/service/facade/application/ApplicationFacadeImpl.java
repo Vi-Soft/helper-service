@@ -48,6 +48,13 @@ public class ApplicationFacadeImpl implements ApplicationFacade {
         );
     }
 
+    @Override
+    public ApplicationOutcomeDto getById(Long id) {
+        return applicationMapper.toDto(
+                applicationService.findByIdUnsafe(id)
+        );
+    }
+
     private void validateUpdate(ApplicationUpdateDto dto) {
         existsByNameUnsafe(dto.getName());
     }
