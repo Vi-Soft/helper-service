@@ -9,4 +9,6 @@ public interface FolderFacade {
     FolderOutcomeDto create(FolderCreateDto dto);
 
     Folder getByIdUnsafe(Long id);
+
+    FolderOutcomeDto getById(Long id);
 }

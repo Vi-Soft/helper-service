@@ -34,6 +34,11 @@ public class FolderFacadeImpl implements FolderFacade {
         return folderService.findByIdUnsafe(id);
     }
 
+    @Override
+    public FolderOutcomeDto getById(Long id) {
+        return folderMapper.toDto(folderService.findByIdUnsafe(id));
+    }
+
     private void validateCreation(Folder folder) {
         existsApplicationRootFolder(folder);
     }

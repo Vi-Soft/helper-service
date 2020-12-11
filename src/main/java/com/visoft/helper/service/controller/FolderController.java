@@ -22,4 +22,9 @@ public class FolderController {
     public FolderOutcomeDto create(@RequestBody @Valid FolderCreateDto dto) {
         return folderFacade.create(dto);
     }
+
+    @GetMapping("{id}")
+    public FolderOutcomeDto getById(@PathVariable("id") Long id) {
+        return folderFacade.getById(id);
+    }
 }
