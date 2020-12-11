@@ -1,7 +1,6 @@
 package com.visoft.helper.service.service.folder;
 
 import com.visoft.helper.service.exception.folder.FolderNotFoundException;
-import com.visoft.helper.service.persistance.entity.Application;
 import com.visoft.helper.service.persistance.entity.Folder;
 import com.visoft.helper.service.persistance.repository.FolderRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,18 +17,34 @@ public class FolderServiceImpl implements FolderService {
     private final FolderRepository folderRepository;
 
     @Override
-    public Folder create(Folder folder) {
+    public Folder save(Folder folder) {
         return folderRepository.save(folder);
     }
 
     @Override
     @Transactional(readOnly = true)
     public boolean existsByApplicationAndParentAndName(
-            Application application,
-            Folder parent,
+            Long applicationId,
+            Long parentId,
             String name
     ) {
-        return folderRepository.existsByApplicationAndParentAndName(application, parent, name);
+        return folderRepository.existsByApplicationIdAndParentIdAndName(applicationId, parentId, name);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsIdNotAndByApplicationAndParentAndName(
+            Long id,
+            Long applicationId,
+            Long parentId,
+            String name
+    ) {
+        return folderRepository.existsByIdNotAndApplicationIdAndParentIdAndName(
+                id,
+                applicationId,
+                parentId,
+                name
+        );
     }
 
     @Override

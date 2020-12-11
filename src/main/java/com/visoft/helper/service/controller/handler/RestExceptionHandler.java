@@ -34,7 +34,8 @@ public class RestExceptionHandler {
                 new ErrorMessage(
                         customException.getHttpStatus(),
                         LocalDateTime.now(),
-                        customException.getLocalizedMessage()
+                        customException.getLocalizedMessage(),
+                        customException.getClass().getSimpleName()
                 ),
                 customException.getHttpStatus());
     }
@@ -44,7 +45,8 @@ public class RestExceptionHandler {
                 new ErrorMessage(
                         httpStatus,
                         LocalDateTime.now(),
-                        throwable.getLocalizedMessage()
+                        throwable.getLocalizedMessage(),
+                        throwable.getClass().getSimpleName()
                 ),
                 httpStatus);
     }

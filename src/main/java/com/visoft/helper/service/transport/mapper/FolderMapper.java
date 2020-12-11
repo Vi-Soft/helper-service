@@ -5,8 +5,10 @@ import com.visoft.helper.service.service.application.ApplicationService;
 import com.visoft.helper.service.service.folder.FolderService;
 import com.visoft.helper.service.transport.dto.folder.FolderCreateDto;
 import com.visoft.helper.service.transport.dto.folder.FolderOutcomeDto;
+import com.visoft.helper.service.transport.dto.folder.FolderUpdateDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper
@@ -28,11 +30,22 @@ public abstract class FolderMapper {
             target = "parent",
             expression = "java(dto.getParentId()==null?null:folderService.findByIdUnsafe(dto.getParentId()))"
     )
-    @Mapping(target = "application", expression = "java(applicationService.findByIdUnsafe(dto.getApplicationId()))"
-    )
+    @Mapping(target = "application", expression = "java(applicationService.findByIdUnsafe(dto.getApplicationId()))")
     @Mapping(target = "children", ignore = true)
     @Mapping(target = "files", ignore = true)
     public abstract Folder toEntity(FolderCreateDto dto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "folderOrder", source = "folderOrder")
+    @Mapping(
+            target = "parent",
+            expression = "java(dto.getParentId()==null?null:folderService.findByIdUnsafe(dto.getParentId()))"
+    )
+    @Mapping(target = "application", ignore = true)
+    @Mapping(target = "children", ignore = true)
+    @Mapping(target = "files", ignore = true)
+    public abstract Folder toEntity(FolderUpdateDto dto, @MappingTarget Folder folder);
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
