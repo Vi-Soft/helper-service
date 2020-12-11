@@ -5,6 +5,7 @@ import com.visoft.helper.service.transport.dto.application.ApplicationCreateDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationOutcomeDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationUpdateDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ public class ApplicationController {
     private final ApplicationFacade applicationFacade;
 
     @PostMapping
-
+    @ResponseStatus(HttpStatus.CREATED)
     public ApplicationOutcomeDto create(@RequestBody @Valid ApplicationCreateDto dto) {
         return applicationFacade.create(dto);
     }
