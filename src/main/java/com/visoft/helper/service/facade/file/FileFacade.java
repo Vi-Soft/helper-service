@@ -6,4 +6,6 @@ import com.visoft.helper.service.transport.dto.file.FileOutcomeDto;
 public interface FileFacade {
 
     FileOutcomeDto create(FileCreateDto dto);
+
+    FileOutcomeDto getById(Long id);
 }

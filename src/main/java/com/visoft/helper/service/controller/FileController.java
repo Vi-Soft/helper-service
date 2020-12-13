@@ -22,4 +22,9 @@ public class FileController {
     public FileOutcomeDto create(@RequestBody @Valid FileCreateDto dto){
         return  fileFacade.create(dto);
     }
+
+    @GetMapping("{id}")
+    public FileOutcomeDto getById(@PathVariable("id") Long id){
+        return  fileFacade.getById(id);
+    }
 }

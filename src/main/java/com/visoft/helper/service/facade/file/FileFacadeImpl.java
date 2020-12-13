@@ -22,4 +22,11 @@ public class FileFacadeImpl implements FileFacade {
                 fileService.save(file)
         );
     }
+
+    @Override
+    public FileOutcomeDto getById(Long id) {
+        return fileMapper.toDto(
+                fileService.findByIdUnsafe(id)
+        );
+    }
 }
