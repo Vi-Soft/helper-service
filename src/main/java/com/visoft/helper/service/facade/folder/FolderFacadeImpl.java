@@ -152,6 +152,9 @@ public class FolderFacadeImpl implements FolderFacade {
         if (previousOrder != null) {
             collect.remove(folder);
         }
+        if (order > collect.size()) {
+            order = collect.size();
+        }
         collect.add(order, folder);
         setCorrectOrder(collect);
     }
