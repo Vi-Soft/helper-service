@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @Getter
 @Setter
-public class File extends IdEntity {
+public class File extends OrderNumberEntity {
 
     @Column(nullable = false)
     private String name;

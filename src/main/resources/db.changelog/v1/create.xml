@@ -80,7 +80,7 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="folder_order" type="bigint">
+            <column name="order_number" type="integer">
                 <constraints nullable="false"/>
             </column>
             <column name="parent_id" type="bigint">
@@ -109,6 +109,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="path" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_number" type="integer">
                 <constraints nullable="false"/>
             </column>
             <column name="folder_id" type="bigint">

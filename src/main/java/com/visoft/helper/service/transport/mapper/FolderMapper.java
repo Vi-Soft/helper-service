@@ -25,7 +25,7 @@ public abstract class FolderMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "name")
-    @Mapping(target = "folderOrder", source = "folderOrder")
+    @Mapping(target = "orderNumber", source = "orderNumber")
     @Mapping(
             target = "parent",
             expression = "java(dto.getParentId()==null?null:folderService.findByIdUnsafe(dto.getParentId()))"
@@ -37,7 +37,7 @@ public abstract class FolderMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "name")
-    @Mapping(target = "folderOrder", source = "folderOrder")
+    @Mapping(target = "orderNumber", source = "orderNumber")
     @Mapping(
             target = "parent",
             expression = "java(dto.getParentId()==null?null:folderService.findByIdUnsafe(dto.getParentId()))"
@@ -49,7 +49,7 @@ public abstract class FolderMapper {
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
-    @Mapping(target = "fileOrder", source = "folderOrder")
+    @Mapping(target = "orderNumber", source = "orderNumber")
     @Mapping(target = "parentId", expression = "java(folder.getParent()==null?null:folder.getParent().getId())")
     @Mapping(target = "applicationId", source = "application.id")
     @Mapping(target = "childrenIds", expression = "java(generalMapper.toIds(folder.getChildren()))")

@@ -123,8 +123,8 @@ public class FolderFacadeImpl implements FolderFacade {
                 null,
                 folder.getApplication(),
                 dto.getParentId() == null ? null : getByIdUnsafe(dto.getParentId()),
-                dto.getFolderOrder(),
-                folder.getFolderOrder()
+                dto.getOrderNumber(),
+                folder.getOrderNumber()
         );
     }
 
@@ -133,7 +133,7 @@ public class FolderFacadeImpl implements FolderFacade {
                 folder,
                 folder.getApplication(),
                 folder.getParent(),
-                folder.getFolderOrder(),
+                folder.getOrderNumber(),
                 null
         );
     }
@@ -142,23 +142,23 @@ public class FolderFacadeImpl implements FolderFacade {
             Folder folder,
             Application application,
             Folder parent,
-            long order,
-            Long previousOrder
+            int order,
+            Integer previousOrder
     ) {
         List<Folder> collect = getFoldersSameLevel(application, parent);
         if (folder == null) {
-            folder = collect.get(Math.toIntExact(previousOrder));
+            folder = collect.get(previousOrder);
         }
         if (previousOrder != null) {
             collect.remove(folder);
         }
-        collect.add((int) order, folder);
+        collect.add(order, folder);
         setCorrectOrder(collect);
     }
 
     private void setCorrectOrder(List<Folder> collect) {
         for (int i = 0; i < collect.size(); i++) {
-            collect.get(i).setFolderOrder(i);
+            collect.get(i).setOrderNumber(i);
         }
     }
 
@@ -184,6 +184,6 @@ public class FolderFacadeImpl implements FolderFacade {
     }
 
     private void sortByOrder(List<Folder> folders) {
-        folders.sort(Comparator.comparingLong(Folder::getFolderOrder));
+        folders.sort(Comparator.comparingInt(Folder::getOrderNumber));
     }
 }

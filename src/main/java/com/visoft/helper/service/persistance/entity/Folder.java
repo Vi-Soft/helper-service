@@ -9,13 +9,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Folder extends IdEntity {
+public class Folder extends OrderNumberEntity {
 
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
-    private long folderOrder;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
