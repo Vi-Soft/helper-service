@@ -119,13 +119,14 @@ public class FolderFacadeImpl implements FolderFacade {
             Folder folder,
             FolderUpdateDto dto
     ) {
-        recountOrder(
+        int order = recountOrder(
                 null,
                 folder.getApplication(),
                 dto.getParentId() == null ? null : getByIdUnsafe(dto.getParentId()),
                 dto.getOrderNumber(),
                 folder.getOrderNumber()
         );
+        dto.setOrderNumber(order);
     }
 
     private void recountOrderForCreation(Folder folder) {
@@ -138,7 +139,7 @@ public class FolderFacadeImpl implements FolderFacade {
         );
     }
 
-    private void recountOrder(
+    private int recountOrder(
             Folder folder,
             Application application,
             Folder parent,
@@ -157,6 +158,7 @@ public class FolderFacadeImpl implements FolderFacade {
         }
         collect.add(order, folder);
         setCorrectOrder(collect);
+        return order;
     }
 
     private void setCorrectOrder(List<Folder> collect) {
