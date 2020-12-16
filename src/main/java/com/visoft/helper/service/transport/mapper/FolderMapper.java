@@ -38,10 +38,7 @@ public abstract class FolderMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "name")
     @Mapping(target = "orderNumber", source = "orderNumber")
-    @Mapping(
-            target = "parent",
-            expression = "java(dto.getParentId()==null?null:folderService.findByIdUnsafe(dto.getParentId()))"
-    )
+    @Mapping(target = "parent", ignore = true)
     @Mapping(target = "application", ignore = true)
     @Mapping(target = "children", ignore = true)
     @Mapping(target = "files", ignore = true)

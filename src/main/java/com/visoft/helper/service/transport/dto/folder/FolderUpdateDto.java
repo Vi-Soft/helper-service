@@ -13,5 +13,4 @@ public class FolderUpdateDto extends OrderNumberDto {
     @NotEmpty
     private String name;
 
-    private Long parentId;
 }

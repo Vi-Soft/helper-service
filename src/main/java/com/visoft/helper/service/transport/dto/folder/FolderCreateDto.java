@@ -11,4 +11,6 @@ public class FolderCreateDto extends FolderUpdateDto {
 
     @NotNull
     private Long applicationId;
+
+    private Long parentId;
 }

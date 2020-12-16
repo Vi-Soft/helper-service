@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -57,14 +56,8 @@ public class FolderFacadeImpl implements FolderFacade {
     }
 
     private void validateUpdate(Folder folder, FolderUpdateDto dto) {
-        Folder parent = folder.getParent();
-        if (!Objects.equals(dto.getParentId(), (parent == null ? null : parent.getId()))) {
-            existsFolderUnsafe(
-                    folder.getApplication().getId(),
-                    dto
-            );
-        } else if (!dto.getName().equals(folder.getName())) {
-            existsFolderInSameLevelUnsafe(folder, dto);
+        if (!dto.getName().equals(folder.getName())) {
+            existsFolderUnsafe(folder, dto);
         }
     }
 
@@ -72,44 +65,31 @@ public class FolderFacadeImpl implements FolderFacade {
         existsFolderUnsafe(folder);
     }
 
-    private void existsFolderInSameLevelUnsafe(Folder folder, FolderUpdateDto dto) {
-        if (folderService.existsIdNotAndByApplicationAndParentAndName(
-                folder.getId(),
-                folder.getApplication().getId(),
-                dto.getParentId(),
+    private void existsFolderUnsafe(Folder folder, FolderUpdateDto dto) {
+        existsFolderUnsafe(
+                folder.getApplication(),
+                folder.getParent(),
                 dto.getName()
-        )
-        ) {
-            throw new FolderAlreadyExistsException();
-        }
+        );
     }
 
     private void existsFolderUnsafe(Folder folder) {
-        Folder parent = folder.getParent();
         existsFolderUnsafe(
-                folder.getApplication().getId(),
-                parent == null ? null : parent.getId(),
+                folder.getApplication(),
+                folder.getParent(),
                 folder.getName()
         );
     }
 
-    private void existsFolderUnsafe(Long applicationId, FolderUpdateDto dto) {
-        existsFolderUnsafe(
-                applicationId,
-                dto.getParentId(),
-                dto.getName()
-        );
-    }
-
     private void existsFolderUnsafe(
-            Long applicationId,
-            Long parentId,
+            Application application,
+            Folder parent,
             String name
     ) {
         if (
                 folderService.existsByApplicationAndParentAndName(
-                        applicationId,
-                        parentId,
+                        application,
+                        parent,
                         name
                 )
         ) {
@@ -121,9 +101,8 @@ public class FolderFacadeImpl implements FolderFacade {
             Folder folder,
             FolderUpdateDto dto
     ) {
-        Folder parent = dto.getParentId() == null ? null : getByIdUnsafe(dto.getParentId());
         int order = orderNumberService.recountFolderOrder(
-                getFoldersSameLevel(folder.getApplication(), parent),
+                getFoldersSameLevel(folder.getApplication(), folder.getParent()),
                 null,
                 dto.getOrderNumber(),
                 folder.getOrderNumber()

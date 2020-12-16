@@ -1,5 +1,6 @@
 package com.visoft.helper.service.service.folder;
 
+import com.visoft.helper.service.persistance.entity.Application;
 import com.visoft.helper.service.persistance.entity.Folder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,8 +11,8 @@ public interface FolderService {
     Folder save(Folder toDto);
 
     boolean existsByApplicationAndParentAndName(
-            Long applicationId,
-            Long parentId,
+            Application application,
+            Folder parent,
             String name
     );
 
