@@ -2,6 +2,8 @@ package com.visoft.helper.service.persistance.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +19,7 @@ public class Application extends IdEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "application")
     private List<Folder> folders;
 
