@@ -1,6 +1,5 @@
 package com.visoft.helper.service.facade.file;
 
-import com.visoft.helper.service.facade.folder.FolderFacade;
 import com.visoft.helper.service.persistance.entity.File;
 import com.visoft.helper.service.persistance.entity.Folder;
 import com.visoft.helper.service.service.file.FileService;
@@ -20,7 +19,6 @@ public class FileFacadeImpl implements FileFacade {
 
     private final FileService fileService;
     private final FileMapper fileMapper;
-    private final FolderFacade folderFacade;
     private final OrderNumberService orderNumberService;
 
     @Override

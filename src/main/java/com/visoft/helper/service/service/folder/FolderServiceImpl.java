@@ -34,22 +34,6 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean existsIdNotAndByApplicationAndParentAndName(
-            Long id,
-            Long applicationId,
-            Long parentId,
-            String name
-    ) {
-        return folderRepository.existsByIdNotAndApplicationIdAndParentIdAndName(
-                id,
-                applicationId,
-                parentId,
-                name
-        );
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Folder findByIdUnsafe(Long id) {
         return folderRepository.findById(id).orElseThrow(FolderNotFoundException::new);
     }
@@ -57,5 +41,10 @@ public class FolderServiceImpl implements FolderService {
     @Override
     public List<Folder> findAllByParent(Folder parent) {
         return folderRepository.findAllByParent(parent);
+    }
+
+    @Override
+    public void delete(Folder folder) {
+        folderRepository.delete(folder);
     }
 }

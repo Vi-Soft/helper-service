@@ -40,6 +40,12 @@ public class FolderFacadeImpl implements FolderFacade {
     }
 
     @Override
+    public void delete(Long id) {
+        Folder folder = folderService.findByIdUnsafe(id);
+        folderService.delete(folder);
+    }
+
+    @Override
     public Folder getByIdUnsafe(Long id) {
         return folderService.findByIdUnsafe(id);
     }

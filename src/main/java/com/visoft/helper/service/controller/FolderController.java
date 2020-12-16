@@ -36,4 +36,9 @@ public class FolderController {
     ) {
         return folderFacade.update(id, dto);
     }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Long id) {
+        folderFacade.delete(id);
+    }
 }

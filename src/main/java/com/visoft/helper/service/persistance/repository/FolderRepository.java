@@ -13,12 +13,5 @@ public interface FolderRepository extends GeneralRepository<Folder> {
             String name
     );
 
-    boolean existsByIdNotAndApplicationIdAndParentIdAndName(
-            Long id,
-            Long applicationId,
-            Long parentId,
-            String name
-    );
-
     List<Folder> findAllByParent(Folder parent);
 }

@@ -14,4 +14,6 @@ public interface FolderFacade {
     FolderOutcomeDto update(Long id, FolderUpdateDto dto);
 
     FolderOutcomeDto getById(Long id);
+
+    void delete(Long id);
 }
