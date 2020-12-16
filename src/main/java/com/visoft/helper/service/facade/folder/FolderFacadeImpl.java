@@ -4,6 +4,7 @@ import com.visoft.helper.service.exception.folder.FolderAlreadyExistsException;
 import com.visoft.helper.service.persistance.entity.Application;
 import com.visoft.helper.service.persistance.entity.Folder;
 import com.visoft.helper.service.service.folder.FolderService;
+import com.visoft.helper.service.service.ordernumber.OrderNumberService;
 import com.visoft.helper.service.transport.dto.folder.FolderCreateDto;
 import com.visoft.helper.service.transport.dto.folder.FolderOutcomeDto;
 import com.visoft.helper.service.transport.dto.folder.FolderUpdateDto;
@@ -11,7 +12,6 @@ import com.visoft.helper.service.transport.mapper.FolderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,6 +21,7 @@ public class FolderFacadeImpl implements FolderFacade {
 
     private final FolderService folderService;
     private final FolderMapper folderMapper;
+    private final OrderNumberService orderNumberService;
 
     @Override
     public FolderOutcomeDto create(FolderCreateDto dto) {
@@ -105,11 +106,12 @@ public class FolderFacadeImpl implements FolderFacade {
             Long parentId,
             String name
     ) {
-        if (folderService.existsByApplicationAndParentAndName(
-                applicationId,
-                parentId,
-                name
-        )
+        if (
+                folderService.existsByApplicationAndParentAndName(
+                        applicationId,
+                        parentId,
+                        name
+                )
         ) {
             throw new FolderAlreadyExistsException();
         }
@@ -119,10 +121,10 @@ public class FolderFacadeImpl implements FolderFacade {
             Folder folder,
             FolderUpdateDto dto
     ) {
-        int order = recountOrder(
+        Folder parent = dto.getParentId() == null ? null : getByIdUnsafe(dto.getParentId());
+        int order = orderNumberService.recountFolderOrder(
+                getFoldersSameLevel(folder.getApplication(), parent),
                 null,
-                folder.getApplication(),
-                dto.getParentId() == null ? null : getByIdUnsafe(dto.getParentId()),
                 dto.getOrderNumber(),
                 folder.getOrderNumber()
         );
@@ -130,65 +132,19 @@ public class FolderFacadeImpl implements FolderFacade {
     }
 
     private void recountOrderForCreation(Folder folder) {
-        recountOrder(
+        orderNumberService.recountFolderOrder(
+                getFoldersSameLevel(folder.getApplication(), folder.getParent()),
                 folder,
-                folder.getApplication(),
-                folder.getParent(),
                 folder.getOrderNumber(),
                 null
         );
     }
 
-    private int recountOrder(
-            Folder folder,
-            Application application,
-            Folder parent,
-            int order,
-            Integer previousOrder
-    ) {
-        List<Folder> collect = getFoldersSameLevel(application, parent);
-        if (folder == null) {
-            folder = collect.get(previousOrder);
-        }
-        if (previousOrder != null) {
-            collect.remove(folder);
-        }
-        if (order > collect.size()) {
-            order = collect.size();
-        }
-        collect.add(order, folder);
-        setCorrectOrder(collect);
-        return order;
-    }
-
-    private void setCorrectOrder(List<Folder> collect) {
-        for (int i = 0; i < collect.size(); i++) {
-            collect.get(i).setOrderNumber(i);
-        }
-    }
-
     private List<Folder> getFoldersSameLevel(Application application, Folder parent) {
-        List<Folder> collect = getRootFoldersSortedByOrder(application);
-        if (parent != null) {
-            collect = getFoldersSortedByOrder(parent);
+        if (parent == null) {
+            return application.getRootFolders();
+        } else {
+            return folderService.findAllByParent(parent);
         }
-        return collect;
-    }
-
-
-    private List<Folder> getFoldersSortedByOrder(Folder parent) {
-        List<Folder> allByParent = folderService.findAllByParent(parent);
-        sortByOrder(allByParent);
-        return allByParent;
-    }
-
-    private List<Folder> getRootFoldersSortedByOrder(Application application) {
-        List<Folder> rootFolders = application.getRootFolders();
-        sortByOrder(rootFolders);
-        return rootFolders;
-    }
-
-    private void sortByOrder(List<Folder> folders) {
-        folders.sort(Comparator.comparingInt(Folder::getOrderNumber));
     }
 }
