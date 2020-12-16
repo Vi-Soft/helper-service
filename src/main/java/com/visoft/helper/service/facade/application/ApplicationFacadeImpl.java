@@ -49,6 +49,13 @@ public class ApplicationFacadeImpl implements ApplicationFacade {
     }
 
     @Override
+    public void delete(Long id) {
+        applicationService.delete(
+                applicationService.findByIdUnsafe(id)
+        );
+    }
+
+    @Override
     public ApplicationOutcomeDto getById(Long id) {
         return applicationMapper.toDto(
                 applicationService.findByIdUnsafe(id)

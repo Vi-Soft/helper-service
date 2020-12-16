@@ -13,4 +13,6 @@ public interface ApplicationService {
     List<Application> findAll();
 
     Application findByIdUnsafe(Long id);
+
+    void delete(Application application);
 }

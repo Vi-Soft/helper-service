@@ -38,4 +38,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     public Application findByIdUnsafe(Long id) {
         return applicationRepository.findById(id).orElseThrow(ApplicationNotFoundException::new);
     }
+
+    @Override
+    public void delete(Application application) {
+        applicationRepository.delete(application);
+    }
 }

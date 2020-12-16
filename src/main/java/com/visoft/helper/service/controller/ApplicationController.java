@@ -33,6 +33,11 @@ public class ApplicationController {
         return applicationFacade.update(id, dto);
     }
 
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Long id) {
+        applicationFacade.delete(id);
+    }
+
     @GetMapping
     public List<ApplicationOutcomeDto> getAll() {
         return applicationFacade.getAll();

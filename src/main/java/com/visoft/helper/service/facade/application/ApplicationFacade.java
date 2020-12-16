@@ -17,5 +17,7 @@ public interface ApplicationFacade {
 
     ApplicationOutcomeDto update(Long id, ApplicationUpdateDto dto);
 
+    void delete(Long id);
+
     ApplicationOutcomeDto getById(Long id);
 }
