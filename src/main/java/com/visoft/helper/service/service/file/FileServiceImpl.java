@@ -33,4 +33,9 @@ public class FileServiceImpl implements FileService {
     public List<File> findAllByFolder(Folder folder) {
         return fileRepository.findAllByFolder(folder);
     }
+
+    @Override
+    public void delete(File file) {
+        fileRepository.delete(file);
+    }
 }

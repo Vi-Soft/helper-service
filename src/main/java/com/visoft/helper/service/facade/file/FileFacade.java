@@ -11,4 +11,6 @@ public interface FileFacade {
     FileOutcomeDto getById(Long id);
 
     FileOutcomeDto update(Long id, FileUpdateDto dto);
+
+    void delete(Long id);
 }

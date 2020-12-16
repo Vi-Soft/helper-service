@@ -12,4 +12,6 @@ public interface FileService {
     File findByIdUnsafe(Long id);
 
     List<File> findAllByFolder(Folder folder);
+
+    void delete(File file);
 }

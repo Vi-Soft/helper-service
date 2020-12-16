@@ -36,4 +36,9 @@ public class FileController {
     ) {
         return fileFacade.update(id, dto);
     }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Long id) {
+        fileFacade.delete(id);
+    }
 }

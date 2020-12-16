@@ -49,6 +49,13 @@ public class FileFacadeImpl implements FileFacade {
         );
     }
 
+    @Override
+    public void delete(Long id) {
+        fileService.delete(
+                fileService.findByIdUnsafe(id)
+        );
+    }
+
     private void recountOrderForCreation(File file) {
         orderNumberService.recountFileOrder(
                 getFilesSortedByOrder(
