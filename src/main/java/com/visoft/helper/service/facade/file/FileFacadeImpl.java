@@ -62,9 +62,7 @@ public class FileFacadeImpl implements FileFacade {
 
     private void recountOrderForUpdate(File file, FileUpdateDto dto) {
         int order = orderNumberService.recountFileOrder(
-                getFilesSortedByOrder(
-                        folderFacade.getByIdUnsafe(dto.getFolderId())
-                ),
+                getFilesSortedByOrder(file.getFolder()),
                 file,
                 dto.getOrderNumber(),
                 file.getOrderNumber()

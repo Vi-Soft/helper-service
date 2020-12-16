@@ -34,6 +34,6 @@ public abstract class FileMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "path", source = "path")
     @Mapping(target = "orderNumber", source = "orderNumber")
-    @Mapping(target = "folder", expression = "java(folderFacade.getByIdUnsafe(dto.getFolderId()))")
+    @Mapping(target = "folder", ignore = true)
     public abstract void toEntity(FileUpdateDto dto, @MappingTarget File file);
 }
