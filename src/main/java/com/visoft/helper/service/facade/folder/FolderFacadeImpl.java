@@ -63,9 +63,9 @@ public class FolderFacadeImpl implements FolderFacade {
 
     private void validateUpdate(Folder folder, FolderUpdateDto dto) {
         if (!(dto.getNameEn().equals(folder.getNameEn()) &&
-              dto.getNameHe().equals(folder.getNameHe()) &&
-              dto.getNameRu().equals(folder.getNameRu()))) {
-            existsFolderUnsafe(folder, dto);
+                dto.getNameHe().equals(folder.getNameHe()) &&
+                dto.getNameRu().equals(folder.getNameRu()))) {
+            existsFolderIdNotUnsafe(folder, dto);
         }
     }
 
@@ -73,13 +73,14 @@ public class FolderFacadeImpl implements FolderFacade {
         existsFolderUnsafe(folder);
     }
 
-    private void existsFolderUnsafe(Folder folder, FolderUpdateDto dto) {
-        existsFolderUnsafe(
+    private void existsFolderIdNotUnsafe(Folder folder, FolderUpdateDto dto) {
+        existsFolderIdNotUnsafe(
+                folder.getId(),
                 folder.getApplication(),
                 folder.getParent(),
                 dto.getNameEn(),
-                dto.getNameHe(),
-                dto.getNameRu()
+                dto.getNameRu(),
+                dto.getNameHe()
         );
     }
 
@@ -88,27 +89,41 @@ public class FolderFacadeImpl implements FolderFacade {
                 folder.getApplication(),
                 folder.getParent(),
                 folder.getNameEn(),
-                folder.getNameHe(),
-                folder.getNameRu()
+                folder.getNameRu(),
+                folder.getNameHe()
+
         );
+    }
+
+    private void existsFolderIdNotUnsafe(
+            Long id,
+            Application application,
+            Folder parent,
+            String nameEn,
+            String nameRu,
+            String nameHe
+    ) {
+        boolean existsByNameEn = folderService.existsByIdNotAndApplicationAndParentAndNameEn(id, application, parent, nameEn);
+        boolean existsByNameRu = folderService.existsByIdNotAndApplicationAndParentAndNameRu(id, application, parent, nameRu);
+        boolean existsByNameHe = folderService.existsByIdNotAndApplicationAndParentAndNameHe(id, application, parent, nameHe);
+
+        if (existsByNameEn || existsByNameRu || existsByNameHe) {
+            throw new FolderAlreadyExistsException();
+        }
     }
 
     private void existsFolderUnsafe(
             Application application,
             Folder parent,
             String nameEn,
-            String nameHe,
-            String nameRu
+            String nameRu,
+            String nameHe
     ) {
-        if (
-                folderService.findAllByParent(
-                        parent
-                ).stream()
-                 .anyMatch(folder -> folder.getApplication().getId().equals(application.getId()) &&
-                                     (folder.getNameEn().equals(nameEn) ||
-                                      folder.getNameHe().equals(nameHe) ||
-                                      folder.getNameRu().equals(nameRu)))
-        ) {
+        boolean existsByNameEn = folderService.existsByApplicationAndParentAndNameEn(application, parent, nameEn);
+        boolean existsByNameRu = folderService.existsByApplicationAndParentAndNameRu(application, parent, nameRu);
+        boolean existsByNameHe = folderService.existsByApplicationAndParentAndNameHe(application, parent, nameHe);
+
+        if (existsByNameEn || existsByNameRu || existsByNameHe) {
             throw new FolderAlreadyExistsException();
         }
     }

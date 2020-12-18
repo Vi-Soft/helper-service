@@ -34,6 +34,97 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public boolean existsByApplicationAndParentAndNameEn(
+            Application application,
+            Folder parent,
+            String nameEn
+    ) {
+        return folderRepository.existsByApplicationAndParentAndNameEn(
+                application,
+                parent,
+                nameEn
+        );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByApplicationAndParentAndNameRu(
+            Application application,
+            Folder parent,
+            String nameRu
+    ) {
+        return folderRepository.existsByApplicationAndParentAndNameRu(
+                application,
+                parent,
+                nameRu
+        );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByApplicationAndParentAndNameHe(
+            Application application,
+            Folder parent,
+            String nameHe
+    ) {
+        return folderRepository.existsByApplicationAndParentAndNameHe(
+                application,
+                parent,
+                nameHe
+        );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByIdNotAndApplicationAndParentAndNameEn(
+            Long id,
+            Application application,
+            Folder parent,
+            String nameEn
+    ) {
+        return folderRepository.existsByIdNotAndApplicationAndParentAndNameEn(
+                id,
+                application,
+                parent,
+                nameEn
+        );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByIdNotAndApplicationAndParentAndNameRu(
+            Long id,
+            Application application,
+            Folder parent,
+            String nameRu
+    ) {
+        return folderRepository.existsByIdNotAndApplicationAndParentAndNameRu(
+                id,
+                application,
+                parent,
+                nameRu
+        );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByIdNotAndApplicationAndParentAndNameHe(
+            Long id,
+            Application application,
+            Folder parent,
+            String nameHe
+    ) {
+        return folderRepository.existsByIdNotAndApplicationAndParentAndNameHe(
+                id,
+                application,
+                parent,
+                nameHe
+        );
+    }
+
+
+    @Override
     public void delete(Folder folder) {
         folderRepository.delete(folder);
     }
