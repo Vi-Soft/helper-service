@@ -6,6 +6,7 @@ import com.visoft.helper.service.transport.dto.folder.FolderOutcomeDto;
 import com.visoft.helper.service.transport.dto.folder.FolderUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,23 +14,24 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("folders")
 @RequiredArgsConstructor
-//@PreAuthorize("hasAuthority('ADMIN')")
 public class FolderController {
 
     private final FolderFacade folderFacade;
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public FolderOutcomeDto create(@RequestBody @Valid FolderCreateDto dto) {
-        return folderFacade.create(dto);
-    }
 
     @GetMapping("{id}")
     public FolderOutcomeDto getById(@PathVariable("id") Long id) {
         return folderFacade.getById(id);
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public FolderOutcomeDto create(@RequestBody @Valid FolderCreateDto dto) {
+        return folderFacade.create(dto);
+    }
+
     @PutMapping("{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public FolderOutcomeDto update(
             @PathVariable("id") Long id,
             @RequestBody @Valid FolderUpdateDto dto
@@ -38,6 +40,7 @@ public class FolderController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void delete(@PathVariable("id") Long id) {
         folderFacade.delete(id);
     }

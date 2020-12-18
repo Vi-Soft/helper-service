@@ -6,6 +6,7 @@ import com.visoft.helper.service.transport.dto.application.ApplicationOutcomeDto
 import com.visoft.helper.service.transport.dto.application.ApplicationUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,29 +15,9 @@ import java.util.List;
 @RestController
 @RequestMapping("applications")
 @RequiredArgsConstructor
-//@PreAuthorize("hasAuthority('ADMIN')")
 public class ApplicationController {
 
     private final ApplicationFacade applicationFacade;
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApplicationOutcomeDto create(@RequestBody @Valid ApplicationCreateDto dto) {
-        return applicationFacade.create(dto);
-    }
-
-    @PutMapping("{id}")
-    public ApplicationOutcomeDto update(
-            @PathVariable("id") Long id,
-            @RequestBody @Valid ApplicationUpdateDto dto
-    ) {
-        return applicationFacade.update(id, dto);
-    }
-
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Long id) {
-        applicationFacade.delete(id);
-    }
 
     @GetMapping
     public List<ApplicationOutcomeDto> getAll() {
@@ -46,5 +27,27 @@ public class ApplicationController {
     @GetMapping("{id}")
     public ApplicationOutcomeDto getById(@PathVariable("id") Long id) {
         return applicationFacade.getById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ApplicationOutcomeDto create(@RequestBody @Valid ApplicationCreateDto dto) {
+        return applicationFacade.create(dto);
+    }
+
+    @PutMapping("{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ApplicationOutcomeDto update(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid ApplicationUpdateDto dto
+    ) {
+        return applicationFacade.update(id, dto);
+    }
+
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void delete(@PathVariable("id") Long id) {
+        applicationFacade.delete(id);
     }
 }
