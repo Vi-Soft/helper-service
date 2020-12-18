@@ -1,6 +1,5 @@
 package com.visoft.helper.service.service.folder;
 
-import com.visoft.helper.service.persistance.entity.Application;
 import com.visoft.helper.service.persistance.entity.Folder;
 
 import java.util.List;
@@ -8,12 +7,6 @@ import java.util.List;
 public interface FolderService {
 
     Folder save(Folder toDto);
-
-    boolean existsByApplicationAndParentAndName(
-            Application application,
-            Folder parent,
-            String name
-    );
 
     Folder findByIdUnsafe(Long id);
 

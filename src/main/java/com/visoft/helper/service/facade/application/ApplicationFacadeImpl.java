@@ -63,15 +63,17 @@ public class ApplicationFacadeImpl implements ApplicationFacade {
     }
 
     private void validateUpdate(ApplicationUpdateDto dto) {
-        existsByNameUnsafe(dto.getName());
+        existsByNameUnsafe(dto.getNameEn(), dto.getNameHe(), dto.getNameRu());
     }
 
     private void validateCreation(Application application) {
-        existsByNameUnsafe(application.getName());
+        existsByNameUnsafe(application.getNameEn(), application.getNameHe(), application.getNameRu());
     }
 
-    private void existsByNameUnsafe(String name) {
-        if (applicationService.existsByName(name)) {
+    private void existsByNameUnsafe(String nameEn,
+                                    String nameHe,
+                                    String nameRu) {
+        if (applicationService.existsByName(nameEn, nameHe, nameRu)) {
             throw new ApplicationAlreadyExistsException();
         }
     }

@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.List;
@@ -14,10 +13,7 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @Setter
-public class Application extends IdEntity {
-
-    @Column(nullable = false, unique = true)
-    private String name;
+public class Application extends MultiLanguageNameEntity {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "application")

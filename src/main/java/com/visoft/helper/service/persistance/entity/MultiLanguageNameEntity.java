@@ -9,8 +9,14 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 @Getter
 @Setter
-public class OrderNumberEntity extends MultiLanguageNameEntity {
+public class MultiLanguageNameEntity extends IdEntity{
 
     @Column(nullable = false)
-    private int orderNumber;
+    private String nameEn;
+
+    @Column(nullable = false)
+    private String nameHe;
+
+    @Column(nullable = false)
+    private String nameRu;
 }

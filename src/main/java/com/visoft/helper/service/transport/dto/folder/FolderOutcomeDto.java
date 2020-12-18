@@ -10,7 +10,6 @@ import java.util.List;
 @Setter
 public class FolderOutcomeDto extends OrderNumberIdDto {
 
-    private String name;
     private Long parentId;
     private Long applicationId;
     private List<Long> childrenIds;

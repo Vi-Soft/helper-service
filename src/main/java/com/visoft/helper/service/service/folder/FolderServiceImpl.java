@@ -24,16 +24,6 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean existsByApplicationAndParentAndName(
-            Application application,
-            Folder parent,
-            String name
-    ) {
-        return folderRepository.existsByApplicationAndParentAndName(application, parent, name);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Folder findByIdUnsafe(Long id) {
         return folderRepository.findById(id).orElseThrow(FolderNotFoundException::new);
     }

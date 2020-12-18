@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class FileOutcomeDto extends OrderNumberIdDto {
 
-    private String name;
     private String path;
     private Long folderId;
 }

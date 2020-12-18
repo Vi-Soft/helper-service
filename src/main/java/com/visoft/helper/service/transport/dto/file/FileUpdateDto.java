@@ -11,8 +11,5 @@ import javax.validation.constraints.NotEmpty;
 public class FileUpdateDto extends OrderNumberDto {
 
     @NotEmpty
-    private String name;
-
-    @NotEmpty
     private String path;
 }

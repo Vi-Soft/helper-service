@@ -14,9 +14,6 @@ import javax.persistence.ManyToOne;
 public class File extends OrderNumberEntity {
 
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
     private String path;
 
     @ManyToOne()

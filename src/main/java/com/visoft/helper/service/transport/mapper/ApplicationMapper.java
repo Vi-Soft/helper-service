@@ -17,18 +17,24 @@ public abstract class ApplicationMapper {
     @Autowired
     GeneralMapper generalMapper;
 
-    @Mapping(target = "name", source = "name")
+    @Mapping(target = "nameEn", source = "nameEn")
+    @Mapping(target = "nameHe", source = "nameHe")
+    @Mapping(target = "nameRu", source = "nameRu")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "folders", ignore = true)
     public abstract Application toEntity(ApplicationCreateDto dto);
 
-    @Mapping(target = "name", source = "name")
+    @Mapping(target = "nameEn", source = "nameEn")
+    @Mapping(target = "nameHe", source = "nameHe")
+    @Mapping(target = "nameRu", source = "nameRu")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "folders", ignore = true)
     public abstract void toEntity(ApplicationUpdateDto dto, @MappingTarget Application application);
 
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
+    @Mapping(target = "nameEn", source = "nameEn")
+    @Mapping(target = "nameHe", source = "nameHe")
+    @Mapping(target = "nameRu", source = "nameRu")
     @Mapping(target = "folderIds", expression = "java(generalMapper.toIds(application.getFolders()))")
     public abstract ApplicationOutcomeDto toDto(Application application);
 

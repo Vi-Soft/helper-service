@@ -13,9 +13,6 @@ import java.util.List;
 @Setter
 public class Folder extends OrderNumberEntity {
 
-    @Column(nullable = false)
-    private String name;
-
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private Folder parent;

@@ -24,7 +24,9 @@ public abstract class FolderMapper {
     GeneralMapper generalMapper;
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "name", source = "name")
+    @Mapping(target = "nameEn", source = "nameEn")
+    @Mapping(target = "nameHe", source = "nameHe")
+    @Mapping(target = "nameRu", source = "nameRu")
     @Mapping(target = "orderNumber", source = "orderNumber")
     @Mapping(
             target = "parent",
@@ -36,7 +38,9 @@ public abstract class FolderMapper {
     public abstract Folder toEntity(FolderCreateDto dto);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "name", source = "name")
+    @Mapping(target = "nameEn", source = "nameEn")
+    @Mapping(target = "nameHe", source = "nameHe")
+    @Mapping(target = "nameRu", source = "nameRu")
     @Mapping(target = "orderNumber", source = "orderNumber")
     @Mapping(target = "parent", ignore = true)
     @Mapping(target = "application", ignore = true)
@@ -45,7 +49,9 @@ public abstract class FolderMapper {
     public abstract Folder toEntity(FolderUpdateDto dto, @MappingTarget Folder folder);
 
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
+    @Mapping(target = "nameEn", source = "nameEn")
+    @Mapping(target = "nameHe", source = "nameHe")
+    @Mapping(target = "nameRu", source = "nameRu")
     @Mapping(target = "orderNumber", source = "orderNumber")
     @Mapping(target = "parentId", expression = "java(folder.getParent()==null?null:folder.getParent().getId())")
     @Mapping(target = "applicationId", source = "application.id")

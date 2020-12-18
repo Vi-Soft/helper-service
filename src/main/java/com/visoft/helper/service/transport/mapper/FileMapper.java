@@ -17,21 +17,27 @@ public abstract class FileMapper {
     FolderFacade folderFacade;
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "name", source = "name")
+    @Mapping(target = "nameEn", source = "nameEn")
+    @Mapping(target = "nameHe", source = "nameHe")
+    @Mapping(target = "nameRu", source = "nameRu")
     @Mapping(target = "path", source = "path")
     @Mapping(target = "orderNumber", source = "orderNumber")
     @Mapping(target = "folder", expression = "java(folderFacade.getByIdUnsafe(dto.getFolderId()))")
     public abstract File toEntity(FileCreateDto dto);
 
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
+    @Mapping(target = "nameEn", source = "nameEn")
+    @Mapping(target = "nameHe", source = "nameHe")
+    @Mapping(target = "nameRu", source = "nameRu")
     @Mapping(target = "path", source = "path")
     @Mapping(target = "orderNumber", source = "orderNumber")
     @Mapping(target = "folderId", source = "folder.id")
     public abstract FileOutcomeDto toDto(File file);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "name", source = "name")
+    @Mapping(target = "nameEn", source = "nameEn")
+    @Mapping(target = "nameHe", source = "nameHe")
+    @Mapping(target = "nameRu", source = "nameRu")
     @Mapping(target = "path", source = "path")
     @Mapping(target = "orderNumber", source = "orderNumber")
     @Mapping(target = "folder", ignore = true)

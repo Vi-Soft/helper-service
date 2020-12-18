@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 
 @Getter
 @Setter
-public class OrderNumberDto {
+public class OrderNumberDto extends MultiLanguageNameDto{
 
     @Min(0)
     private int orderNumber;

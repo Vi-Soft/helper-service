@@ -64,7 +64,13 @@
                              primaryKeyName="application_pkey"
                              nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="name_en" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name_he" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name_ru" type="varchar(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
@@ -77,7 +83,13 @@
                              primaryKeyName="folder_pkey"
                              nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="name_en" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name_he" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name_ru" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="order_number" type="integer">
@@ -107,7 +119,13 @@
                              primaryKeyName="file_pkey"
                              nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="name_en" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name_he" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name_ru" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="path" type="varchar(255)">

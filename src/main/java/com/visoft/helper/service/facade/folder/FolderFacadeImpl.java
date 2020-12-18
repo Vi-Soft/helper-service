@@ -62,7 +62,9 @@ public class FolderFacadeImpl implements FolderFacade {
     }
 
     private void validateUpdate(Folder folder, FolderUpdateDto dto) {
-        if (!dto.getName().equals(folder.getName())) {
+        if (!(dto.getNameEn().equals(folder.getNameEn()) &&
+              dto.getNameHe().equals(folder.getNameHe()) &&
+              dto.getNameRu().equals(folder.getNameRu()))) {
             existsFolderUnsafe(folder, dto);
         }
     }
@@ -75,7 +77,9 @@ public class FolderFacadeImpl implements FolderFacade {
         existsFolderUnsafe(
                 folder.getApplication(),
                 folder.getParent(),
-                dto.getName()
+                dto.getNameEn(),
+                dto.getNameHe(),
+                dto.getNameRu()
         );
     }
 
@@ -83,21 +87,27 @@ public class FolderFacadeImpl implements FolderFacade {
         existsFolderUnsafe(
                 folder.getApplication(),
                 folder.getParent(),
-                folder.getName()
+                folder.getNameEn(),
+                folder.getNameHe(),
+                folder.getNameRu()
         );
     }
 
     private void existsFolderUnsafe(
             Application application,
             Folder parent,
-            String name
+            String nameEn,
+            String nameHe,
+            String nameRu
     ) {
         if (
-                folderService.existsByApplicationAndParentAndName(
-                        application,
-                        parent,
-                        name
-                )
+                folderService.findAllByParent(
+                        parent
+                ).stream()
+                 .anyMatch(folder -> folder.getApplication().getId().equals(application.getId()) &&
+                                     (folder.getNameEn().equals(nameEn) ||
+                                      folder.getNameHe().equals(nameHe) ||
+                                      folder.getNameRu().equals(nameRu)))
         ) {
             throw new FolderAlreadyExistsException();
         }
