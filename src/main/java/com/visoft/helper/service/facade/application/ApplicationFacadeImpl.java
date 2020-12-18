@@ -41,7 +41,7 @@ public class ApplicationFacadeImpl implements ApplicationFacade {
     @Override
     public ApplicationOutcomeDto update(Long id, ApplicationUpdateDto dto) {
         Application application = applicationService.findByIdUnsafe(id);
-        validateUpdate(dto);
+        validateUpdate(id, dto);
         applicationMapper.toEntity(dto, application);
         return applicationMapper.toDto(
                 applicationService.save(application)
@@ -62,18 +62,47 @@ public class ApplicationFacadeImpl implements ApplicationFacade {
         );
     }
 
-    private void validateUpdate(ApplicationUpdateDto dto) {
-        existsByNameUnsafe(dto.getNameEn(), dto.getNameHe(), dto.getNameRu());
+    private void validateUpdate(Long id, ApplicationUpdateDto dto) {
+        existsByIdNOtAndNameUnsafe(
+                id,
+                dto.getNameEn(),
+                dto.getNameHe(),
+                dto.getNameRu()
+        );
     }
 
     private void validateCreation(Application application) {
-        existsByNameUnsafe(application.getNameEn(), application.getNameHe(), application.getNameRu());
+        existsByNameUnsafe(
+                application.getNameEn(),
+                application.getNameRu(),
+                application.getNameHe()
+        );
     }
 
-    private void existsByNameUnsafe(String nameEn,
-                                    String nameHe,
-                                    String nameRu) {
-        if (applicationService.existsByName(nameEn, nameHe, nameRu)) {
+    private void existsByNameUnsafe(
+            String nameEn,
+            String nameRu,
+            String nameHe
+    ) {
+        if (applicationService.existsByNameEnOrNameRuOrNameHe(nameEn, nameRu, nameHe)) {
+            throw new ApplicationAlreadyExistsException();
+        }
+    }
+
+    private void existsByIdNOtAndNameUnsafe(
+            Long id,
+            String nameEn,
+            String nameRu,
+            String nameHe
+    ) {
+        if (
+                applicationService.existsByIdNotAndNameEnOrNameRuOrNameHe(
+                        id,
+                        nameEn,
+                        nameRu,
+                        nameHe
+                )
+        ) {
             throw new ApplicationAlreadyExistsException();
         }
     }

@@ -23,10 +23,30 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean existsByName(String nameEn,
-                                 String nameHe,
-                                 String nameRu) {
-        return applicationRepository.existsByNameEnOrNameHeOrNameRu(nameEn, nameHe, nameRu);
+    public boolean existsByNameEnOrNameRuOrNameHe(
+            String nameEn,
+            String nameRu,
+            String nameHe
+    ) {
+        return applicationRepository.existsByNameEnOrNameRuOrNameHe(nameEn, nameRu, nameHe);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByIdNotAndNameEnOrNameRuOrNameHe(
+            Long id,
+            String nameEn,
+            String nameRu,
+            String nameHe
+    ) {
+        return applicationRepository.existsByIdNotAndNameEnOrIdNotAndNameRuOrIdNotAndNameHe(
+                id,
+                nameEn,
+                id,
+                nameRu,
+                id,
+                nameHe
+        );
     }
 
     @Override

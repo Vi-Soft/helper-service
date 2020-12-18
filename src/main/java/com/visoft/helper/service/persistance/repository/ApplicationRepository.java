@@ -4,5 +4,18 @@ import com.visoft.helper.service.persistance.entity.Application;
 
 public interface ApplicationRepository extends GeneralRepository<Application> {
 
-    boolean existsByNameEnOrNameHeOrNameRu(String nameEn, String nameHe, String nameRu);
+    boolean existsByNameEnOrNameRuOrNameHe(
+            String nameEn,
+            String nameRu,
+            String nameHe
+    );
+
+    boolean existsByIdNotAndNameEnOrIdNotAndNameRuOrIdNotAndNameHe(
+            Long firstId,
+            String nameEn,
+            Long secondId,
+            String nameRu,
+            Long thirdId,
+            String nameHe
+    );
 }

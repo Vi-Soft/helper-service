@@ -8,7 +8,18 @@ public interface ApplicationService {
 
     Application save(Application application);
 
-    boolean existsByName(String nameEn, String nameHe, String nameRu);
+    boolean existsByNameEnOrNameRuOrNameHe(
+            String nameEn,
+            String nameRu,
+            String nameHe
+    );
+
+    boolean existsByIdNotAndNameEnOrNameRuOrNameHe(
+            Long id,
+            String nameEn,
+            String nameRu,
+            String nameHe
+    );
 
     List<Application> findAll();
 
