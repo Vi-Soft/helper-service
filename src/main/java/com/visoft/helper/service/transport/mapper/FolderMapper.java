@@ -46,7 +46,7 @@ public abstract class FolderMapper {
     @Mapping(target = "application", ignore = true)
     @Mapping(target = "children", ignore = true)
     @Mapping(target = "files", ignore = true)
-    public abstract Folder toEntity(FolderUpdateDto dto, @MappingTarget Folder folder);
+    public abstract void toEntity(FolderUpdateDto dto, @MappingTarget Folder folder);
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "nameEn", source = "nameEn")

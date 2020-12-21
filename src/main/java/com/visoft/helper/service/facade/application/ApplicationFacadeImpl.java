@@ -34,11 +34,6 @@ public class ApplicationFacadeImpl implements ApplicationFacade {
     }
 
     @Override
-    public Application getByIdUnsafe(Long id) {
-        return applicationService.findByIdUnsafe(id);
-    }
-
-    @Override
     public ApplicationOutcomeDto update(Long id, ApplicationUpdateDto dto) {
         Application application = applicationService.findByIdUnsafe(id);
         validateUpdate(id, dto);

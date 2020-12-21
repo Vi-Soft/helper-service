@@ -57,7 +57,4 @@ public class User extends IdEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
-
-//    @OneToOne(mappedBy = "user")
-//    private Token token;
 }
