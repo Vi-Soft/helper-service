@@ -9,6 +9,8 @@
     <changeSet id="2" author="vi-soft">
         <loadData tableName="users" file="classpath:db.changelog/population/users.csv"/>
         <loadData tableName="user_role" file="classpath:db.changelog/population/user_role.csv"/>
-
+        <loadData tableName="application" file="classpath:db.changelog/population/application.csv"/>
+        <loadData tableName="folder" file="classpath:db.changelog/population/folder.csv"/>
+        <loadData tableName="file" file="classpath:db.changelog/population/file.csv"/>
     </changeSet>
 </databaseChangeLog>
