@@ -6,7 +6,7 @@ import com.visoft.helper.service.service.application.ApplicationService;
 import com.visoft.helper.service.transport.dto.application.ApplicationCreateDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationOutcomeDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationUpdateDto;
-import com.visoft.helper.service.transport.mapper.ApplicationMapper;
+import com.visoft.helper.service.transport.mapper.application.ApplicationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

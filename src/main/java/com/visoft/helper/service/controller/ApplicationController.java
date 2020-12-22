@@ -1,9 +1,11 @@
 package com.visoft.helper.service.controller;
 
 import com.visoft.helper.service.facade.application.ApplicationFacade;
+import com.visoft.helper.service.service.application.tree.ApplicationTreeService;
 import com.visoft.helper.service.transport.dto.application.ApplicationCreateDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationOutcomeDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationUpdateDto;
+import com.visoft.helper.service.transport.dto.tree.ApplicationTreeOutcomeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +20,7 @@ import java.util.List;
 public class ApplicationController {
 
     private final ApplicationFacade applicationFacade;
+    private final ApplicationTreeService applicationTreeService;
 
     @GetMapping
     public List<ApplicationOutcomeDto> getAll() {
@@ -27,6 +30,11 @@ public class ApplicationController {
     @GetMapping("{id}")
     public ApplicationOutcomeDto getById(@PathVariable("id") Long id) {
         return applicationFacade.getById(id);
+    }
+
+    @GetMapping("{id}/tree")
+    public ApplicationTreeOutcomeDto getTree(@PathVariable("id") Long id) {
+        return applicationTreeService.getTree(id);
     }
 
     @PostMapping
