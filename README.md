@@ -23,6 +23,6 @@ The next generation of Vi-Soft's quality control system.
 
    Way-2 : gradle bootRun
 
-4. Server url http://localhost:9080
-5. Swagger http://localhost:9080/swagger-ui.html
+4. Server url http://localhost:9080/help
+5. Swagger http://localhost:9080/help/swagger-ui.html
  

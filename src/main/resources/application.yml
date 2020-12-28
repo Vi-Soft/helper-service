@@ -1,6 +1,7 @@
 server:
   port: 9080
-
+  servlet:
+    contextPath: /help
 spring:
   application:
     name: helper-service
