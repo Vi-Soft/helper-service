@@ -26,7 +26,8 @@ public class FolderFacadeImpl implements FolderFacade {
     public FolderOutcomeDto create(FolderCreateDto dto) {
         Folder folder = folderMapper.toEntity(dto);
         validateCreation(folder);
-        recountOrderForCreation(folder);
+        orderNumberService.recountCreateFolder(folder);
+//        recountOrderForCreation(folder);
         return folderMapper.toDto(
                 folderService.save(folder)
         );
@@ -54,7 +55,8 @@ public class FolderFacadeImpl implements FolderFacade {
     public FolderOutcomeDto update(Long id, FolderUpdateDto dto) {
         Folder folder = folderService.findByIdUnsafe(id);
         validateUpdate(folder, dto);
-        recountOrderForUpdate(folder, dto);
+        orderNumberService.recountUpdateFolder(folder, dto);
+//        recountOrderForUpdate(folder, dto);
         folderMapper.toEntity(dto, folder);
         return folderMapper.toDto(
                 folderService.save(folder)
