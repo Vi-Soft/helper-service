@@ -18,7 +18,7 @@
             <column name="login" type="varchar(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="password" type="varchar(255)">F
+            <column name="password" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
 

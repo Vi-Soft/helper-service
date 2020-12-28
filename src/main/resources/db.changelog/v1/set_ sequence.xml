@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="3" author="vi-soft">
+        <sql>
+            SELECT pg_catalog.setval(pg_get_serial_sequence('users', 'id'), (SELECT MAX(id) FROM users));
+        </sql>
+        <sql>
+            SELECT pg_catalog.setval(pg_get_serial_sequence('application', 'id'), (SELECT MAX(id) FROM application));
+        </sql>
+        <sql>
+            SELECT pg_catalog.setval(pg_get_serial_sequence('folder', 'id'), (SELECT MAX(id) FROM folder));
+        </sql>
+        <sql>
+            SELECT pg_catalog.setval(pg_get_serial_sequence('file', 'id'), (SELECT MAX(id) FROM file));
+        </sql>
+
+    </changeSet>
+</databaseChangeLog>
