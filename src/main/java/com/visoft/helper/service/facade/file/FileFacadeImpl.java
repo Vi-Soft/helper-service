@@ -24,7 +24,8 @@ public class FileFacadeImpl implements FileFacade {
     @Override
     public FileOutcomeDto create(FileCreateDto dto) {
         File file = fileMapper.toEntity(dto);
-        recountOrderForCreation(file);
+        orderNumberService.recountCreateFile(file);
+//    recountOrderForCreation(file);
         return fileMapper.toDto(
                 fileService.save(file)
         );

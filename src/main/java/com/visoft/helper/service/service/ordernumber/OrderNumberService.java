@@ -17,6 +17,8 @@ public interface OrderNumberService {
 
     void recountCreateFolder(Folder folder);
 
+    void recountCreateFile(File file);
+
     void recountUpdateFolder(Folder folder, FolderUpdateDto dto);
 
     int recountFolderOrder(

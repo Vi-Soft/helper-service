@@ -3,6 +3,7 @@ package com.visoft.helper.service.service.ordernumber;
 import com.visoft.helper.service.persistance.entity.File;
 import com.visoft.helper.service.persistance.entity.Folder;
 import com.visoft.helper.service.persistance.entity.OrderNumberEntity;
+import com.visoft.helper.service.service.file.FileService;
 import com.visoft.helper.service.service.folder.FolderService;
 import com.visoft.helper.service.transport.dto.folder.FolderUpdateDto;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 public class OrderNumberServiceImpl implements OrderNumberService {
 
     private final FolderService folderService;
+    private final FileService fileService;
 
     @Override
     public void recountCreateFolder(Folder folder) {
@@ -35,6 +37,23 @@ public class OrderNumberServiceImpl implements OrderNumberService {
         }
         sortByOrder(orderNumberEntities);
         orderNumberEntities.add(folder.getOrderNumber(), folder);
+        setCorrectOrder(orderNumberEntities);
+    }
+
+    @Override
+    public void recountCreateFile(File file) {
+        List<OrderNumberEntity> orderNumberEntities;
+        Folder folder = file.getFolder();
+        orderNumberEntities = new ArrayList<>(
+                fileService.findAllByFolder(file.getFolder())
+        );
+        orderNumberEntities.addAll(folder.getChildren());
+
+        if (file.getOrderNumber() > orderNumberEntities.size()) {
+            file.setOrderNumber(orderNumberEntities.size());
+        }
+        sortByOrder(orderNumberEntities);
+        orderNumberEntities.add(file.getOrderNumber(), folder);
         setCorrectOrder(orderNumberEntities);
     }
 
@@ -59,6 +78,7 @@ public class OrderNumberServiceImpl implements OrderNumberService {
         orderNumberEntities.add(dto.getOrderNumber(), folder);
         setCorrectOrder(orderNumberEntities);
     }
+
 
 //    @Override
 //    public void recountCreateFolder(Folder folder) {
