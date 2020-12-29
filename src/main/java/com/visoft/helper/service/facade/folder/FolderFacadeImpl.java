@@ -12,8 +12,6 @@ import com.visoft.helper.service.transport.mapper.FolderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class FolderFacadeImpl implements FolderFacade {
@@ -26,8 +24,7 @@ public class FolderFacadeImpl implements FolderFacade {
     public FolderOutcomeDto create(FolderCreateDto dto) {
         Folder folder = folderMapper.toEntity(dto);
         validateCreation(folder);
-        orderNumberService.recountCreateFolder(folder);
-//        recountOrderForCreation(folder);
+        orderNumberService.recount(folder);
         return folderMapper.toDto(
                 folderService.save(folder)
         );
@@ -55,8 +52,7 @@ public class FolderFacadeImpl implements FolderFacade {
     public FolderOutcomeDto update(Long id, FolderUpdateDto dto) {
         Folder folder = folderService.findByIdUnsafe(id);
         validateUpdate(folder, dto);
-        orderNumberService.recountUpdateFolder(folder, dto);
-//        recountOrderForUpdate(folder, dto);
+        orderNumberService.recount(folder, dto);
         folderMapper.toEntity(dto, folder);
         return folderMapper.toDto(
                 folderService.save(folder)
@@ -127,36 +123,6 @@ public class FolderFacadeImpl implements FolderFacade {
 
         if (existsByNameEn || existsByNameRu || existsByNameHe) {
             throw new FolderAlreadyExistsException();
-        }
-    }
-
-    private void recountOrderForUpdate(
-            Folder folder,
-            FolderUpdateDto dto
-    ) {
-        int order = orderNumberService.recountFolderOrder(
-                getFoldersSameLevel(folder.getApplication(), folder.getParent()),
-                null,
-                dto.getOrderNumber(),
-                folder.getOrderNumber()
-        );
-        dto.setOrderNumber(order);
-    }
-
-    private void recountOrderForCreation(Folder folder) {
-        orderNumberService.recountFolderOrder(
-                getFoldersSameLevel(folder.getApplication(), folder.getParent()),
-                folder,
-                folder.getOrderNumber(),
-                null
-        );
-    }
-
-    private List<Folder> getFoldersSameLevel(Application application, Folder parent) {
-        if (parent == null) {
-            return application.getRootFolders();
-        } else {
-            return folderService.findAllByParent(parent);
         }
     }
 }

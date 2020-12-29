@@ -2,29 +2,16 @@ package com.visoft.helper.service.service.ordernumber;
 
 import com.visoft.helper.service.persistance.entity.File;
 import com.visoft.helper.service.persistance.entity.Folder;
+import com.visoft.helper.service.transport.dto.file.FileUpdateDto;
 import com.visoft.helper.service.transport.dto.folder.FolderUpdateDto;
-
-import java.util.List;
 
 public interface OrderNumberService {
 
-    int recountFileOrder(
-            List<File> fileInSameFolder,
-            File file,
-            int order,
-            Integer previousOrder
-    );
+    void recount(Folder folder);
 
-    void recountCreateFolder(Folder folder);
+    void recount(Folder folder, FolderUpdateDto dto);
 
-    void recountCreateFile(File file);
+    void recount(File file);
 
-    void recountUpdateFolder(Folder folder, FolderUpdateDto dto);
-
-    int recountFolderOrder(
-            List<Folder> folderInSameFolder,
-            Folder folder,
-            int order,
-            Integer previousOrder
-    );
+    void recount(File file, FileUpdateDto dto);
 }
