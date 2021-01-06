@@ -1,6 +1,6 @@
 package com.visoft.helper.service.facade.file;
 
-import com.visoft.helper.service.persistance.entity.File;
+import com.visoft.helper.service.persistance.entity.file.File;
 import com.visoft.helper.service.service.file.FileService;
 import com.visoft.helper.service.service.ordernumber.OrderNumberService;
 import com.visoft.helper.service.transport.dto.file.FileCreateDto;

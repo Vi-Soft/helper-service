@@ -1,17 +1,21 @@
 package com.visoft.helper.service.persistance.entity;
 
+import com.visoft.helper.service.persistance.entity.file.File;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class Folder extends OrderNumberEntity {
+public class Folder extends OrderNumber {
 
     @ManyToOne
     @JoinColumn(name = "parent_id")

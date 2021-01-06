@@ -1,8 +1,8 @@
 package com.visoft.helper.service.service.ordernumber;
 
-import com.visoft.helper.service.persistance.entity.File;
 import com.visoft.helper.service.persistance.entity.Folder;
-import com.visoft.helper.service.persistance.entity.OrderNumberEntity;
+import com.visoft.helper.service.persistance.entity.OrderNumber;
+import com.visoft.helper.service.persistance.entity.file.File;
 import com.visoft.helper.service.transport.dto.OrderNumberDto;
 import com.visoft.helper.service.transport.dto.file.FileUpdateDto;
 import com.visoft.helper.service.transport.dto.folder.FolderUpdateDto;
@@ -49,8 +49,8 @@ public class OrderNumberServiceImpl implements OrderNumberService {
         );
     }
 
-    private List<OrderNumberEntity> getOrderNumberEntities(File file) {
-        List<OrderNumberEntity> orderNumberEntities;
+    private List<OrderNumber> getOrderNumberEntities(File file) {
+        List<OrderNumber> orderNumberEntities;
         orderNumberEntities = new ArrayList<>(
                 file.getFolder().getFiles()
         );
@@ -58,8 +58,8 @@ public class OrderNumberServiceImpl implements OrderNumberService {
         return orderNumberEntities;
     }
 
-    private List<OrderNumberEntity> getOrderNumberEntities(Folder folder) {
-        List<OrderNumberEntity> orderNumberEntities;
+    private List<OrderNumber> getOrderNumberEntities(Folder folder) {
+        List<OrderNumber> orderNumberEntities;
         if (folder.getParent() == null) {
             orderNumberEntities = new ArrayList<>(folder.getApplication().getRootFolders());
         } else {
@@ -70,39 +70,39 @@ public class OrderNumberServiceImpl implements OrderNumberService {
     }
 
     public void recountCreation(
-            OrderNumberEntity orderNumberEntity,
-            List<OrderNumberEntity> orderNumberEntities
+            OrderNumber orderNumber,
+            List<OrderNumber> orderNumberEntities
     ) {
         setMaxIndexIfNeed(
                 true,
-                orderNumberEntity,
+                orderNumber,
                 null,
-                orderNumberEntity.getOrderNumber(),
+                orderNumber.getOrderNumber(),
                 orderNumberEntities
         );
         setCorrectOrder(
                 true,
-                orderNumberEntity,
+                orderNumber,
                 orderNumberEntities,
-                orderNumberEntity.getOrderNumber()
+                orderNumber.getOrderNumber()
         );
     }
 
     private void recountUpdate(
-            OrderNumberEntity orderNumberEntity,
+            OrderNumber orderNumber,
             OrderNumberDto dto,
-            List<OrderNumberEntity> orderNumberEntities
+            List<OrderNumber> orderNumberEntities
     ) {
         setMaxIndexIfNeed(
                 false,
-                orderNumberEntity,
+                orderNumber,
                 dto,
                 dto.getOrderNumber(),
                 orderNumberEntities
         );
         setCorrectOrder(
                 false,
-                orderNumberEntity,
+                orderNumber,
                 orderNumberEntities,
                 dto.getOrderNumber()
         );
@@ -110,10 +110,10 @@ public class OrderNumberServiceImpl implements OrderNumberService {
 
     private void setMaxIndexIfNeed(
             boolean forCreation,
-            OrderNumberEntity orderNumberEntity,
+            OrderNumber orderNumberEntity,
             OrderNumberDto dto,
             int orderNumber,
-            List<OrderNumberEntity> orderNumberEntities
+            List<OrderNumber> orderNumberEntities
     ) {
         int maxOrderNumber = orderNumberEntities.size() - 1;
         if (forCreation) {
@@ -129,8 +129,8 @@ public class OrderNumberServiceImpl implements OrderNumberService {
 
     private void setCorrectOrder(
             boolean forCreation,
-            OrderNumberEntity orderNumberEntity,
-            List<OrderNumberEntity> orderNumberEntities,
+            OrderNumber orderNumberEntity,
+            List<OrderNumber> orderNumberEntities,
             int orderNumber
     ) {
         sortByOrder(orderNumberEntities);
@@ -142,11 +142,11 @@ public class OrderNumberServiceImpl implements OrderNumberService {
     }
 
 
-    private void sortByOrder(List<? extends OrderNumberEntity> collection) {
-        collection.sort(Comparator.comparingInt(OrderNumberEntity::getOrderNumber));
+    private void sortByOrder(List<? extends OrderNumber> collection) {
+        collection.sort(Comparator.comparingInt(OrderNumber::getOrderNumber));
     }
 
-    private void setCorrectOrder(List<? extends OrderNumberEntity> collect) {
+    private void setCorrectOrder(List<? extends OrderNumber> collect) {
         for (int i = 0; i < collect.size(); i++) {
             collect.get(i).setOrderNumber(i);
         }

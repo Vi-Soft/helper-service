@@ -1,7 +1,7 @@
 package com.visoft.helper.service.persistance.repository;
 
-import com.visoft.helper.service.persistance.entity.File;
 import com.visoft.helper.service.persistance.entity.Folder;
+import com.visoft.helper.service.persistance.entity.file.File;
 
 import java.util.List;
 

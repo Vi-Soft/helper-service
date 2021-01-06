@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @Setter
-public class Application extends MultiLanguageNameEntity {
+public class Application extends MultiLanguageName {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "application")

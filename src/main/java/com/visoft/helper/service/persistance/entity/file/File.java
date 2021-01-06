@@ -1,9 +1,9 @@
-package com.visoft.helper.service.persistance.entity;
+package com.visoft.helper.service.persistance.entity.file;
 
+import com.visoft.helper.service.persistance.entity.Folder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,12 +11,9 @@ import javax.persistence.ManyToOne;
 @Entity
 @Getter
 @Setter
-public class File extends OrderNumberEntity {
+public class File extends PathMultiLanguage {
 
-    @Column(nullable = false)
-    private String path;
-
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "folder_id", nullable = false)
     private Folder folder;
 }

@@ -8,7 +8,9 @@ import lombok.Setter;
 @Setter
 public class TreeContentDto extends ApplicationTreeOutcomeDto {
 
-    private String path;
+    private String pathEn;
+    private String pathRu;
+    private String pathHe;
 
     @JsonIgnore
     private int orderNumber;

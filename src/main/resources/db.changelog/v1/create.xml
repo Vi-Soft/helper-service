@@ -128,7 +128,13 @@
             <column name="name_ru" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="path" type="varchar(255)">
+            <column name="path_en" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="path_he" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="path_ru" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="order_number" type="integer">
