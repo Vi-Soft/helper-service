@@ -25,13 +25,13 @@ public class FileController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public FileOutcomeDto create(@RequestBody @Valid FileCreateDto dto) {
         return fileFacade.create(dto);
     }
 
     @PutMapping("{id}")
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public FileOutcomeDto update(
             @PathVariable("id") Long id,
             @RequestBody @Valid FileUpdateDto dto
