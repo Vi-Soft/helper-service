@@ -1,11 +1,11 @@
-id,name_en,name_ru,name_he,path_en,path_ru,path_he,order_number,path,folder_id
-1,file1,file1,file1,p_en_1,p_ru_1,p_he_1,0,http://1.pdf,1
-2,file12,file12,file12,p_en_2,p_ru_2,p_he_2,1,http://12.pdf,1
+id,name_en,name_ru,name_he,path_en,path_ru,path_he,order_number,folder_id
+1,file1,file1,file1,http://1.pdf,http://1.pdf,p_he_1.pdf,1,1
+2,file12,file12,file12,http://2.pdf,http://2.pdf,p_he_2.pdf,2,1
 
-3,file2,file2,file1,p_en_3,p_ru_3,p_he_30,0,http://2.pdf,2
-4,file21,file21,file2,p_en_4,p_ru_4,p_he_4,1,http://21.png,2
+3,file2,file2,file1,http://3.pdf,http://3.pdf,p_he_30.pdf,0,2
+4,file21,file21,file2,http://4.pdf,http://4.pdf,p_he_4.pdf,1,2
 
-5,file1_1,file1_1,file1_1,p_en_5,p_ru_5,p_he_5,0,http://1_1.doc,3
+5,file1_1,file1_1,file1_1,http://5.pdf,http://5,.pdfp_he_5.pdf,0,3
 
-6,file1_2_1,file1_2_1,file1_2_1,p_en_6,p_ru_6,p_he_6,0,http://1_2_1.xml,5
-7,file1_2_1,file1_2_1_2,file1_2_1_2,p_en_7,p_ru_7,p_he_7,1,http://1_2_2.json,5
+6,file1_2_1,file1_2_1,file1_2_1,http://6.pdf,http://6.pdf,p_he_6.pdf,0,5
+7,file1_2_1,file1_2_1_2,file1_2_1_2,http://7.pdf,http://7.pdf,p_he_7.pdf,1,5
