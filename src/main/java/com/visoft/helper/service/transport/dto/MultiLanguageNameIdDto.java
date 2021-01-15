@@ -3,18 +3,22 @@ package com.visoft.helper.service.transport.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class MultiLanguageNameIdDto extends IdDto{
+public class MultiLanguageNameIdDto extends IdDto {
 
-    @NotEmpty
+    @NotBlank
+    @NotNull
     private String nameEn;
 
-    @NotEmpty
+    @NotBlank
+    @NotNull
     private String nameHe;
 
-    @NotEmpty
+    @NotBlank
+    @NotNull
     private String nameRu;
 }
