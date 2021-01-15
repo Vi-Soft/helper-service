@@ -20,10 +20,14 @@ public class FileFacadeImpl implements FileFacade {
 
     @Override
     public FileOutcomeDto create(FileCreateDto dto) {
-        File file = fileMapper.toEntity(dto);
-        orderNumberService.recount(file);
-        return fileMapper.toDto(
-                fileService.save(file)
+        return create(dto, true);
+    }
+
+    @Override
+    public void copyFile(File file, Long folderId) {
+        create(
+                fileMapper.toCreateDto(file, folderId),
+                false
         );
     }
 
@@ -50,4 +54,15 @@ public class FileFacadeImpl implements FileFacade {
                 fileService.findByIdUnsafe(id)
         );
     }
+
+    private FileOutcomeDto create(FileCreateDto dto, boolean enableRecount) {
+        File file = fileMapper.toEntity(dto);
+        if (enableRecount) {
+            orderNumberService.recount(file);
+        }
+        return fileMapper.toDto(
+                fileService.save(file)
+        );
+    }
+
 }

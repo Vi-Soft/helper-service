@@ -2,6 +2,7 @@ package com.visoft.helper.service.controller;
 
 import com.visoft.helper.service.facade.application.ApplicationFacade;
 import com.visoft.helper.service.service.application.tree.ApplicationTreeService;
+import com.visoft.helper.service.transport.dto.application.ApplicationCopyDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationCreateDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationOutcomeDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationUpdateDto;
@@ -42,6 +43,13 @@ public class ApplicationController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ApplicationOutcomeDto create(@RequestBody @Valid ApplicationCreateDto dto) {
         return applicationFacade.create(dto);
+    }
+
+    @PostMapping("copy/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void copy(@PathVariable("id") Long id, ApplicationCopyDto dto) {
+        applicationFacade.copy(id, dto);
     }
 
     @PutMapping("{id}")

@@ -1,14 +1,11 @@
 package com.visoft.helper.service.service.file;
 
 import com.visoft.helper.service.exception.file.FileNotFoundException;
-import com.visoft.helper.service.persistance.entity.Folder;
 import com.visoft.helper.service.persistance.entity.file.File;
 import com.visoft.helper.service.persistance.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -26,12 +23,6 @@ public class FileServiceImpl implements FileService {
     @Transactional(readOnly = true)
     public File findByIdUnsafe(Long id) {
         return fileRepository.findById(id).orElseThrow(FileNotFoundException::new);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<File> findAllByFolder(Folder folder) {
-        return fileRepository.findAllByFolder(folder);
     }
 
     @Override

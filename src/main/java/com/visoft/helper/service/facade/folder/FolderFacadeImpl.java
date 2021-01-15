@@ -9,25 +9,26 @@ import com.visoft.helper.service.transport.dto.folder.FolderCreateDto;
 import com.visoft.helper.service.transport.dto.folder.FolderOutcomeDto;
 import com.visoft.helper.service.transport.dto.folder.FolderUpdateDto;
 import com.visoft.helper.service.transport.mapper.FolderMapper;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
+@Setter(onMethod_ = @Autowired)
 public class FolderFacadeImpl implements FolderFacade {
 
-    private final FolderService folderService;
-    private final FolderMapper folderMapper;
-    private final OrderNumberService orderNumberService;
+    private FolderService folderService;
+    private FolderMapper folderMapper;
+    private OrderNumberService orderNumberService;
 
     @Override
     public FolderOutcomeDto create(FolderCreateDto dto) {
-        Folder folder = folderMapper.toEntity(dto);
-        validateCreation(folder);
-        orderNumberService.recount(folder);
-        return folderMapper.toDto(
-                folderService.save(folder)
-        );
+        return create(dto, true);
+    }
+
+    @Override
+    public FolderOutcomeDto createWithoutReorder(FolderCreateDto dto) {
+        return create(dto, false);
     }
 
     @Override
@@ -44,16 +45,26 @@ public class FolderFacadeImpl implements FolderFacade {
     }
 
     @Override
-    public Folder getByIdUnsafe(Long id) {
-        return folderService.findByIdUnsafe(id);
-    }
-
-    @Override
     public FolderOutcomeDto update(Long id, FolderUpdateDto dto) {
         Folder folder = folderService.findByIdUnsafe(id);
         validateUpdate(folder, dto);
         orderNumberService.recount(folder, dto);
         folderMapper.toEntity(dto, folder);
+        return folderMapper.toDto(
+                folderService.save(folder)
+        );
+    }
+
+    private Folder getByIdUnsafe(Long id) {
+        return folderService.findByIdUnsafe(id);
+    }
+
+    private FolderOutcomeDto create(FolderCreateDto dto, boolean enableRecount) {
+        Folder folder = folderMapper.toEntity(dto);
+        validateCreation(folder);
+        if (enableRecount) {
+            orderNumberService.recount(folder);
+        }
         return folderMapper.toDto(
                 folderService.save(folder)
         );

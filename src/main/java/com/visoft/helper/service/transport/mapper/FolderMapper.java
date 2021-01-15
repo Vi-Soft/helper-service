@@ -59,5 +59,11 @@ public abstract class FolderMapper {
     @Mapping(target = "fileIds", expression = "java(generalMapper.toIds(folder.getFiles()))")
     public abstract FolderOutcomeDto toDto(Folder folder);
 
-
+    @Mapping(target = "nameEn", source = "folder.nameEn")
+    @Mapping(target = "nameHe", source = "folder.nameHe")
+    @Mapping(target = "nameRu", source = "folder.nameRu")
+    @Mapping(target = "orderNumber", source = "folder.orderNumber")
+    @Mapping(target = "parentId", source = "parentId")
+    @Mapping(target = "applicationId", source = "applicationId")
+    public abstract FolderCreateDto toCreateDto(Folder folder, Long applicationId, Long parentId);
 }

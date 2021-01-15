@@ -2,22 +2,27 @@ package com.visoft.helper.service.facade.application;
 
 import com.visoft.helper.service.exception.application.ApplicationAlreadyExistsException;
 import com.visoft.helper.service.persistance.entity.Application;
+import com.visoft.helper.service.service.CopierService;
 import com.visoft.helper.service.service.application.ApplicationService;
+import com.visoft.helper.service.transport.dto.application.ApplicationCopyDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationCreateDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationOutcomeDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationUpdateDto;
 import com.visoft.helper.service.transport.mapper.application.ApplicationMapper;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
+@Setter(onMethod_ = @Autowired)
 public class ApplicationFacadeImpl implements ApplicationFacade {
 
-    private final ApplicationService applicationService;
-    private final ApplicationMapper applicationMapper;
+    private ApplicationService applicationService;
+    private ApplicationMapper applicationMapper;
+    //    private final FolderFacade folderFacade;
+    private CopierService copierService;
 
     @Override
     public ApplicationOutcomeDto create(ApplicationCreateDto dto) {
@@ -55,6 +60,14 @@ public class ApplicationFacadeImpl implements ApplicationFacade {
         return applicationMapper.toDto(
                 applicationService.findByIdUnsafe(id)
         );
+    }
+
+    @Override
+    public void copy(Long id, ApplicationCopyDto dto) {
+        copierService.copyApplication(id, dto);
+//        Application application = applicationService.findByIdUnsafe(id);
+//        ApplicationOutcomeDto applicationOutcomeDto = create(applicationMapper.toCreateDto(dto));
+//        folderFacade.copyRootFolders(application.getRootFolders(), applicationOutcomeDto.getId());
     }
 
     private void validateUpdate(Long id, ApplicationUpdateDto dto) {

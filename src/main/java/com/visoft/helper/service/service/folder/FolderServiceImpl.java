@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -26,11 +24,6 @@ public class FolderServiceImpl implements FolderService {
     @Transactional(readOnly = true)
     public Folder findByIdUnsafe(Long id) {
         return folderRepository.findById(id).orElseThrow(FolderNotFoundException::new);
-    }
-
-    @Override
-    public List<Folder> findAllByParent(Folder parent) {
-        return folderRepository.findAllByParent(parent);
     }
 
     @Override

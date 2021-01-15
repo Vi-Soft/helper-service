@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderNumberServiceImpl implements OrderNumberService {
@@ -47,6 +48,26 @@ public class OrderNumberServiceImpl implements OrderNumberService {
                 dto,
                 getOrderNumberEntities(file)
         );
+    }
+
+    @Override
+    public List<OrderNumber> getSortedByOrderNumberChildrenCommonOrderNumbers(Folder parentFolder) {
+        List<OrderNumber> orderNumbers = parentFolder.getChildren()
+                .stream()
+                .map(folder -> (OrderNumber) folder)
+                .collect(Collectors.toList());
+
+        orderNumbers.addAll(
+                parentFolder.getFiles().stream()
+                        .map(file -> (OrderNumber) file)
+                        .collect(Collectors.toList())
+        );
+        sortByOrder(orderNumbers);
+        return orderNumbers;
+    }
+
+    private void sortByOrder(List<? extends OrderNumber> collection) {
+        collection.sort(Comparator.comparingInt(OrderNumber::getOrderNumber));
     }
 
     private List<OrderNumber> getOrderNumberEntities(File file) {
@@ -139,11 +160,6 @@ public class OrderNumberServiceImpl implements OrderNumberService {
         }
         orderNumberEntities.add(orderNumber, orderNumberEntity);
         setCorrectOrder(orderNumberEntities);
-    }
-
-
-    private void sortByOrder(List<? extends OrderNumber> collection) {
-        collection.sort(Comparator.comparingInt(OrderNumber::getOrderNumber));
     }
 
     private void setCorrectOrder(List<? extends OrderNumber> collect) {

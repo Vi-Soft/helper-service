@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ public class Application extends MultiLanguageName {
     private List<Folder> folders;
 
     public List<Folder> getRootFolders() {
+        folders = folders == null ? new ArrayList<>() : folders;
         return this.folders.stream()
                 .filter(folder -> folder.getParent() == null)
                 .collect(Collectors.toList()

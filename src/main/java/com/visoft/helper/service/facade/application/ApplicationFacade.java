@@ -1,5 +1,6 @@
 package com.visoft.helper.service.facade.application;
 
+import com.visoft.helper.service.transport.dto.application.ApplicationCopyDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationCreateDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationOutcomeDto;
 import com.visoft.helper.service.transport.dto.application.ApplicationUpdateDto;
@@ -17,4 +18,6 @@ public interface ApplicationFacade {
     void delete(Long id);
 
     ApplicationOutcomeDto getById(Long id);
+
+    void copy(Long id, ApplicationCopyDto dto);
 }
