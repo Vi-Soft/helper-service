@@ -5,17 +5,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 public class FileUpdateDto extends OrderNumberDto {
 
     @NotEmpty
+    @NotNull
     private String pathEn;
 
     @NotEmpty
+    @NotNull
     private String pathRu;
 
     @NotEmpty
+    @NotNull
     private String pathHe;
 }
