@@ -1,4 +1,4 @@
-package com.visoft.helper.service.service;
+package com.visoft.helper.service.service.copier;
 
 import com.visoft.helper.service.transport.dto.application.ApplicationCopyDto;
 

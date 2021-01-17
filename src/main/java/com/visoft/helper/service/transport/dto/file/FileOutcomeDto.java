@@ -1,6 +1,6 @@
 package com.visoft.helper.service.transport.dto.file;
 
-import com.visoft.helper.service.transport.dto.OrderNumberIdDto;
+import com.visoft.helper.service.transport.dto.ordernumber.OrderNumberIdDto;
 import lombok.Getter;
 import lombok.Setter;
 

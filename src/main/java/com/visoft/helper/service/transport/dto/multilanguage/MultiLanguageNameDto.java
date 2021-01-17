@@ -1,4 +1,4 @@
-package com.visoft.helper.service.transport.dto;
+package com.visoft.helper.service.transport.dto.multilanguage;
 
 import lombok.Getter;
 import lombok.Setter;
