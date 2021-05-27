@@ -1,15 +1,15 @@
-spring:
-  cloud:
-    config:
-      name: helper-application
-      uri: http://localhost:8888
-      enabled: true
-      label: main
-    refresh:
-      enabled: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+#spring:
+#  cloud:
+#    config:
+#      name: helper-application
+#      uri: http://localhost:8888
+#      enabled: true
+#      label: main
+#    refresh:
+#      enabled: true
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
