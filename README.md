@@ -1,3 +1,4 @@
+![Build](https://github.com/github/docs/actions/workflows/java-gradle.yml/badge.svg)
 # Vi-Soft-NG
 
 The next generation of Vi-Soft's quality control system.
