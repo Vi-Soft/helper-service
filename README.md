@@ -1,4 +1,4 @@
-![Java CI with Gradle](https://github.com/Vi-Soft/helper-service/actions/workflows/java-gradle.yml/badge.svg)
+![Build](https://github.com/Vi-Soft/helper-service/actions/workflows/java-gradle.yml/badge.svg)
 # Vi-Soft-NG
 
 The next generation of Vi-Soft's quality control system.
