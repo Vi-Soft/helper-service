@@ -9,6 +9,7 @@ import com.visoft.helper.service.transport.dto.authorization.LoginDto;
 import com.visoft.helper.service.transport.dto.authorization.LoginOutcomeDto;
 import com.visoft.helper.service.transport.mapper.AuthorizationMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AuthorizationFacadeImpl implements AuthorizationFacade {
 
     private final UserFacade userFacade;
@@ -27,23 +29,28 @@ public class AuthorizationFacadeImpl implements AuthorizationFacade {
 
     @Override
     public LoginOutcomeDto login(LoginDto loginDto) {
+        log.info("Start login {}", loginDto.getLogin());
         User actor = userFacade.findByLogin(loginDto.getLogin())
                 .orElseThrow(BadCredentialException::new);
 
         validatePassword(actor, loginDto.getPassword());
-
-        return authorizationMapper.toDto(
-                tokenFacade.save(manageToken(actor)).getToken()
-        );
+        LoginOutcomeDto loginOutcomeDto = authorizationMapper.toDto(
+                tokenFacade.save(manageToken(actor)).getToken());
+        log.info("Login successful {}", actor.getLogin());
+        return loginOutcomeDto;
     }
 
     @Override
     public void logout() {
-        tokenFacade.deleteByUser(getActorFromContext());
+        User actor = getActorFromContext();
+        log.info("Start logout {}", actor.getLogin());
+        tokenFacade.deleteByUser(actor);
+        log.info("Logout successful {}", actor.getLogin());
     }
 
     private void validatePassword(User actor, String password) {
         if (!passwordEncoder.matches(password, actor.getPassword())) {
+            log.info("Invalid credentials: {}", actor.getLogin());
             throw new BadCredentialException();
         }
     }

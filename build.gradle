@@ -62,6 +62,7 @@ dependencies {
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     implementation "io.jsonwebtoken:jjwt:${jwtVersion}"
     implementation "org.liquibase:liquibase-core"
+    implementation 'ch.qos.logback:logback-core:1.2.10'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
