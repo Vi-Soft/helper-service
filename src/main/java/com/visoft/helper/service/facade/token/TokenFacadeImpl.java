@@ -7,6 +7,7 @@ import com.visoft.helper.service.persistance.entity.user.User;
 import com.visoft.helper.service.service.token.TokenService;
 import com.visoft.helper.service.transport.mapper.TokenMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class TokenFacadeImpl implements TokenFacade {
 
     private final TokenService tokenService;
@@ -39,6 +41,8 @@ public class TokenFacadeImpl implements TokenFacade {
 
     @Override
     public Token createNewToken(User user) {
+        log.info("Start create token for" +
+                " user {}", user);
         Token token = tokenMapper.toEntity(
                 makeExpirationPoint(),
                 tokenHandler.generateAccessToken(user),
@@ -46,6 +50,7 @@ public class TokenFacadeImpl implements TokenFacade {
         );
 
         validateCreateNewToken(token);
+        log.info("Token created {} for user {}", token, user);
         return token;
     }
 

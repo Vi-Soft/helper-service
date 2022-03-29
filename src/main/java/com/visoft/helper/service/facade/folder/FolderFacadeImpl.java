@@ -10,11 +10,13 @@ import com.visoft.helper.service.transport.dto.folder.FolderOutcomeDto;
 import com.visoft.helper.service.transport.dto.folder.FolderUpdateDto;
 import com.visoft.helper.service.transport.mapper.FolderMapper;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 @Setter(onMethod_ = @Autowired)
+@Slf4j
 public class FolderFacadeImpl implements FolderFacade {
 
     private FolderService folderService;
@@ -46,13 +48,16 @@ public class FolderFacadeImpl implements FolderFacade {
 
     @Override
     public FolderOutcomeDto update(Long id, FolderUpdateDto dto) {
+        log.info("Start update folder {}", id);
         Folder folder = folderService.findByIdUnsafe(id);
         validateUpdate(folder, dto);
         orderNumberService.recount(folder, dto);
         folderMapper.toEntity(dto, folder);
-        return folderMapper.toDto(
+        FolderOutcomeDto folderOutcomeDto = folderMapper.toDto(
                 folderService.save(folder)
         );
+        log.info("Folder updated {}", folderOutcomeDto);
+        return folderOutcomeDto;
     }
 
     private Folder getByIdUnsafe(Long id) {
@@ -60,14 +65,17 @@ public class FolderFacadeImpl implements FolderFacade {
     }
 
     private FolderOutcomeDto create(FolderCreateDto dto, boolean enableRecount) {
+        log.info("Start create folder {}. Recount enabled: {}", dto, enableRecount);
         Folder folder = folderMapper.toEntity(dto);
         validateCreation(folder);
         if (enableRecount) {
             orderNumberService.recount(folder);
         }
-        return folderMapper.toDto(
+        FolderOutcomeDto folderOutcomeDto = folderMapper.toDto(
                 folderService.save(folder)
         );
+        log.info("Folder created {}", folderOutcomeDto);
+        return folderOutcomeDto;
     }
 
     private void validateUpdate(Folder folder, FolderUpdateDto dto) {
@@ -117,6 +125,7 @@ public class FolderFacadeImpl implements FolderFacade {
         boolean existsByNameHe = folderService.existsByIdNotAndApplicationAndParentAndNameHe(id, application, parent, nameHe);
 
         if (existsByNameEn || existsByNameRu || existsByNameHe) {
+            isExistFolderByNameLog(existsByNameEn, existsByNameRu, existsByNameHe, nameEn, nameRu, nameHe);
             throw new FolderAlreadyExistsException();
         }
     }
@@ -133,7 +142,23 @@ public class FolderFacadeImpl implements FolderFacade {
         boolean existsByNameHe = folderService.existsByApplicationAndParentAndNameHe(application, parent, nameHe);
 
         if (existsByNameEn || existsByNameRu || existsByNameHe) {
+            isExistFolderByNameLog(existsByNameEn, existsByNameRu, existsByNameHe, nameEn, nameRu, nameHe);
             throw new FolderAlreadyExistsException();
         }
+    }
+
+    private void isExistFolderByNameLog(boolean existsByNameEn,
+                                        boolean existsByNameRu,
+                                        boolean existsByNameHe,
+                                        String nameEn,
+                                        String nameRu,
+                                        String nameHe
+    ) {
+        if (existsByNameEn)
+            log.info("Folder EN is already exists: {}", nameEn);
+        if (existsByNameRu)
+            log.info("Folder RU is already exists: {}", nameRu);
+        if (existsByNameHe)
+            log.info("Folder HE is already exists: {}", nameHe);
     }
 }

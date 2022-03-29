@@ -8,10 +8,12 @@ import com.visoft.helper.service.transport.dto.file.FileOutcomeDto;
 import com.visoft.helper.service.transport.dto.file.FileUpdateDto;
 import com.visoft.helper.service.transport.mapper.FileMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class FileFacadeImpl implements FileFacade {
 
     private final FileService fileService;
@@ -25,6 +27,7 @@ public class FileFacadeImpl implements FileFacade {
 
     @Override
     public void copyFile(File file, Long folderId) {
+        log.info("Copy file {}", file);
         create(
                 fileMapper.toCreateDto(file, folderId),
                 false
@@ -40,12 +43,15 @@ public class FileFacadeImpl implements FileFacade {
 
     @Override
     public FileOutcomeDto update(Long id, FileUpdateDto dto) {
+        log.info("Update file {}, {}", id, dto);
         File file = fileService.findByIdUnsafe(id);
         orderNumberService.recount(file, dto);
         fileMapper.toEntity(dto, file);
-        return fileMapper.toDto(
+        FileOutcomeDto fileOutcomeDto = fileMapper.toDto(
                 fileService.save(file)
         );
+        log.info("File updated {}", fileOutcomeDto);
+        return fileOutcomeDto;
     }
 
     @Override
@@ -56,13 +62,15 @@ public class FileFacadeImpl implements FileFacade {
     }
 
     private FileOutcomeDto create(FileCreateDto dto, boolean enableRecount) {
+        log.info("Create folder {}", dto);
         File file = fileMapper.toEntity(dto);
         if (enableRecount) {
             orderNumberService.recount(file);
         }
-        return fileMapper.toDto(
+        FileOutcomeDto fileOutcomeDto = fileMapper.toDto(
                 fileService.save(file)
         );
+        log.info("Folder created {}", fileOutcomeDto);
+        return fileOutcomeDto;
     }
-
 }
