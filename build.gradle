@@ -4,18 +4,31 @@ plugins {
     id 'java'
 }
 
+group = 'com.visoft'
+def projectVersion = '0.0.1-SNAPSHOT'
+
+def getGitCommitId () {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'log', '--format=%H', '-1'
+        standardOutput = stdout
+    }
+
+    return stdout.toString().substring(0, 7)
+}
+
+project.archivesBaseName = project.name + '-' + projectVersion + '-' + getGitCommitId()
+
+
+
 task updateVersions {
     ext.outputFile = file("src/main/resources/version.properties")
     outputs.file(outputFile)
     doLast {
-        outputFile.text = "application.version=${project.version}"
+        outputFile.text = "application.version=${projectVersion}"
     }
 }
 jar.dependsOn(updateVersions)
-
-
-group = 'com.visoft'
-version = '0.0.1-SNAPSHOT'
 
 allprojects {
     tasks.withType(JavaCompile) {
