@@ -1,0 +1,8 @@
+app:
+  enable-prod-folder: true
+  local-folder: ${user.home}
+  prod-folder: /home/visrvadmin
+  local-resources-folder: vi-soft/app/front-end/build
+  api-folder: doc/help
+  host: http://visoftapp1.visoft-eng.com
+  port: 8082

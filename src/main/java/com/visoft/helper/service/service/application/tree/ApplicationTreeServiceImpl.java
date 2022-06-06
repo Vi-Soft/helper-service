@@ -53,6 +53,7 @@ public class ApplicationTreeServiceImpl implements ApplicationTreeService {
                         applicationTreeMapper.toDto(file)
                 )
         );
+        sortByOrderNumber(dto.getContent());
     }
 
     private void sortByOrderNumber(List<TreeContentDto> treeContentDtos) {
