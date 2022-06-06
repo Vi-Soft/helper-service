@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -72,17 +71,11 @@ public class FileSystem {
         Arrays.stream(Language.values()).sequential().forEach(this::mkdirIfDoesntExists);
     }
 
+    @SneakyThrows
     private String mkdirIfDoesntExists(Language language) {
         final Path path = Paths.get(dirStructureCreatorProperties.appResourcesPath(), language.getDescription());
-        System.out.println(dirStructureCreatorProperties.appResourcesPath());
-        System.out.println(language.getDescription());
-        System.out.println(path);
         if (!path.toFile().exists()) {
-            try {
-                Files.createDirectories(path);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Files.createDirectories(path);
         }
         return path.toString();
     }
