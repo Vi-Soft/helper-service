@@ -1,15 +1,23 @@
 package com.visoft.helper.service.facade.file;
 
+import com.visoft.helper.service.transport.dto.file.FileDto;
+import com.visoft.helper.service.utils.FileSystem;
 import com.visoft.helper.service.persistance.entity.file.File;
 import com.visoft.helper.service.service.file.FileService;
 import com.visoft.helper.service.service.ordernumber.OrderNumberService;
+import com.visoft.helper.service.transport.dto.Language;
 import com.visoft.helper.service.transport.dto.file.FileCreateDto;
 import com.visoft.helper.service.transport.dto.file.FileOutcomeDto;
 import com.visoft.helper.service.transport.dto.file.FileUpdateDto;
 import com.visoft.helper.service.transport.mapper.FileMapper;
+import com.visoft.helper.service.utils.UrlBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +27,8 @@ public class FileFacadeImpl implements FileFacade {
     private final FileService fileService;
     private final FileMapper fileMapper;
     private final OrderNumberService orderNumberService;
+    private final UrlBuilder urlBuilder;
+    private final FileSystem fileSystem;
 
     @Override
     public FileOutcomeDto create(FileCreateDto dto) {
@@ -59,6 +69,24 @@ public class FileFacadeImpl implements FileFacade {
         fileService.delete(
                 fileService.findByIdUnsafe(id)
         );
+    }
+
+    @Override
+    public String upload(Language language, MultipartFile file) {
+        return urlBuilder.generate(language, fileSystem.write(language, file));
+    }
+
+    @Override
+    public List<FileDto> list(Language language) {
+        return
+                fileSystem.list(language).stream()
+                        .map(fileName ->
+                                FileDto.builder()
+                                        .fileNameWithExtension(fileName)
+                                        .url(urlBuilder.generate(language, fileName))
+                                        .build()
+                        )
+                        .collect(Collectors.toList());
     }
 
     private FileOutcomeDto create(FileCreateDto dto, boolean enableRecount) {
