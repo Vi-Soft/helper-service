@@ -51,9 +51,9 @@ public class FileController {
 
     @PostMapping("{language}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String upload(@PathVariable Language language,
-                         MultipartFile file) {
-        return fileFacade.upload(language, file);
+    public List<FileDto> upload(@PathVariable Language language,
+                                @RequestParam List<MultipartFile> files) {
+        return fileFacade.upload(language, files);
     }
 
     @GetMapping("{language}/list")

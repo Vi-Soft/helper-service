@@ -72,14 +72,18 @@ public class FileFacadeImpl implements FileFacade {
     }
 
     @Override
-    public String upload(Language language, MultipartFile file) {
-        return urlBuilder.generate(language, fileSystem.write(language, file));
+    public List<FileDto> upload(Language language, List<MultipartFile> files) {
+        return list(language, files.stream().map(file -> fileSystem.write(language, file)).collect(Collectors.toList()));
     }
 
     @Override
     public List<FileDto> list(Language language) {
+        return list(language, fileSystem.list(language));
+    }
+
+    private List<FileDto> list(Language language, List<String> fileNames) {
         return
-                fileSystem.list(language).stream()
+                fileNames.stream()
                         .map(fileName ->
                                 FileDto.builder()
                                         .fileNameWithExtension(fileName)
