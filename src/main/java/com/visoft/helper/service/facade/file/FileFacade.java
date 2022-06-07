@@ -22,7 +22,7 @@ public interface FileFacade {
 
     void delete(Long id);
 
-    String upload(Language language, MultipartFile file);
+    List<FileDto> upload(Language language, List<MultipartFile> files);
 
     List<FileDto> list(Language language);
 }
