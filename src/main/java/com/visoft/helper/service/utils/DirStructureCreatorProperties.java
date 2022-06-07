@@ -23,6 +23,8 @@ public class DirStructureCreatorProperties {
     @Value("${app.enable-prod-folder}")
     private Boolean enableProdFolder;
 
+    @Value("${app.protocol}")
+    private String protocol;
 
     @Value("${app.host}")
     private String host;
@@ -34,8 +36,17 @@ public class DirStructureCreatorProperties {
         return Paths.get(getLocalOrProdResources(), localResourcesFolder()).toString();
     }
 
-    public String appResourcesHostAndPort() {
-        return String.format("%s:%d", host, port);
+
+    public String appResourcesProtocol() {
+        return protocol;
+    }
+
+    public String appResourcesHost() {
+        return host;
+    }
+
+    public int appResourcesPort() {
+        return port;
     }
 
     public String getApiFolder() {
