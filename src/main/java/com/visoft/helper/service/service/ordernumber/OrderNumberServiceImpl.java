@@ -8,9 +8,7 @@ import com.visoft.helper.service.transport.dto.folder.FolderUpdateDto;
 import com.visoft.helper.service.transport.dto.ordernumber.OrderNumberDto;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,10 +70,16 @@ public class OrderNumberServiceImpl implements OrderNumberService {
 
     private List<OrderNumber> getOrderNumberEntities(File file) {
         List<OrderNumber> orderNumberEntities;
-        orderNumberEntities = new ArrayList<>(
-                file.getFolder().getFiles()
-        );
-        orderNumberEntities.addAll(file.getFolder().getChildren());
+        if (Objects.nonNull(file.getFolder())) {
+            orderNumberEntities = new ArrayList<>(
+                    file.getFolder().getFiles()
+            );
+            orderNumberEntities.addAll(file.getFolder().getChildren());
+        } else {
+            orderNumberEntities = file.getApplication().getFiles().stream()
+                    .filter(f -> Objects.isNull(f.getFolder())).collect(Collectors.toList());
+            orderNumberEntities.addAll(file.getApplication().getRootFolders());
+        }
         return orderNumberEntities;
     }
 

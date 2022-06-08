@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd"
+        logicalFilePath="2022-06-08-10-00-rns-4299-make-it-possible-to-create-files-not-inside-folders.xml">
+
+    <changeSet id="rns-4299-make-it-possible-to-create-files-not-inside-folders.xml" author="anton.pryadko">
+        <sql splitStatements="false">
+            DO $$
+                DECLARE
+                    _record  RECORD;
+                BEGIN
+
+                    ALTER TABLE file ALTER COLUMN folder_id DROP NOT NULL;
+                    ALTER TABLE file ADD COLUMN application_id BIGINT;
+                    ALTER TABLE file ADD FOREIGN KEY (application_id) REFERENCES application(id) ON DELETE CASCADE;
+
+                    FOR _record in (SELECT id, folder_id FROM file)
+                        LOOP
+                            UPDATE file SET application_id = (select f.application_id from folder f where f.id = _record.folder_id)
+                            WHERE id = _record.id;
+                        END LOOP;
+                    ALTER TABLE file ALTER COLUMN application_id SET NOT NULL;
+            END $$;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

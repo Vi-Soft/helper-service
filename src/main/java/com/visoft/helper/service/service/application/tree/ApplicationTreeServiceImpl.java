@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -28,15 +29,15 @@ public class ApplicationTreeServiceImpl implements ApplicationTreeService {
     }
 
     private void buildApplicationTree(Application application, ApplicationTreeOutcomeDto dto) {
-        setFolderContent(application.getRootFolders(), dto);
+        setFolderContent(application.getRootFolders(), dto, true);
     }
 
     private void buildFolderContent(Folder folder, TreeContentDto dto) {
-        setFolderContent(folder.getChildren(), dto);
+        setFolderContent(folder.getChildren(), dto, false);
         setFileContent(folder, dto);
     }
 
-    private void setFolderContent(List<Folder> folders, ApplicationTreeOutcomeDto dto) {
+    private void setFolderContent(List<Folder> folders, ApplicationTreeOutcomeDto dto, boolean isRoot) {
         folders.forEach(
                 folder -> {
                     TreeContentDto treeContentDto = applicationTreeMapper.toDto(folder);
@@ -44,6 +45,15 @@ public class ApplicationTreeServiceImpl implements ApplicationTreeService {
                     buildFolderContent(folder, treeContentDto);
                 }
         );
+        if(isRoot) {
+            applicationService.findByIdUnsafe(dto.getId()).getFiles().stream().filter(
+                    f -> Objects.isNull(f.getFolder())
+            ).forEach(file ->
+                    dto.getContent().add(
+                            applicationTreeMapper.toDto(file)
+                    )
+            );
+        }
         sortByOrderNumber(dto.getContent());
     }
 

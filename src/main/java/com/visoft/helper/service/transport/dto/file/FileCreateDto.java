@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 public class FileCreateDto extends FileUpdateDto {
 
-    @NotNull
     private Long folderId;
+    @NotNull
+    private Long applicationId;
 }

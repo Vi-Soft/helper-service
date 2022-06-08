@@ -1,5 +1,6 @@
 package com.visoft.helper.service.persistance.entity;
 
+import com.visoft.helper.service.persistance.entity.file.File;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
@@ -19,6 +20,10 @@ public class Application extends MultiLanguageName {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "application")
     private List<Folder> folders;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "application")
+    private List<File> files = new ArrayList<>();
 
     public List<Folder> getRootFolders() {
         folders = folders == null ? new ArrayList<>() : folders;
