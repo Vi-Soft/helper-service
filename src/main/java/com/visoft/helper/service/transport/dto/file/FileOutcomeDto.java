@@ -19,6 +19,8 @@ public class FileOutcomeDto extends OrderNumberIdDto {
     @NotNull
     private String pathHe;
 
-    @NotNull
     private Long folderId;
+
+    @NotNull
+    private Long applicationId;
 }
