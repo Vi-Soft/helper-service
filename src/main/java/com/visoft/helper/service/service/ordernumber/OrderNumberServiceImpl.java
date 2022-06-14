@@ -76,8 +76,7 @@ public class OrderNumberServiceImpl implements OrderNumberService {
             );
             orderNumberEntities.addAll(file.getFolder().getChildren());
         } else {
-            orderNumberEntities = file.getApplication().getFiles().stream()
-                    .filter(f -> Objects.isNull(f.getFolder())).collect(Collectors.toList());
+            orderNumberEntities = new ArrayList<>(file.getApplication().getRootFiles());
             orderNumberEntities.addAll(file.getApplication().getRootFolders());
         }
         return orderNumberEntities;
@@ -87,6 +86,7 @@ public class OrderNumberServiceImpl implements OrderNumberService {
         List<OrderNumber> orderNumberEntities;
         if (folder.getParent() == null) {
             orderNumberEntities = new ArrayList<>(folder.getApplication().getRootFolders());
+            orderNumberEntities.addAll(folder.getApplication().getRootFiles());
         } else {
             orderNumberEntities = new ArrayList<>(folder.getParent().getChildren());
             orderNumberEntities.addAll(folder.getParent().getFiles());
