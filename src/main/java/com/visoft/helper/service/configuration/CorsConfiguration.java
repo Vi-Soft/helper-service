@@ -23,7 +23,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://visoftapp1.visoft-eng.com:4141", "http://localhost:4141")
+                .allowedOrigins("http://visoftapp1.visoft-eng.com:4141", "http://localhost:4141", "http://localhost:3002")
                 .allowedMethods(allowedMethods())
                 .allowedHeaders(allowedHeaders())
                 .exposedHeaders(exposedHeaders());
