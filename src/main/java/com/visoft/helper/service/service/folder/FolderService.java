@@ -3,6 +3,8 @@ package com.visoft.helper.service.service.folder;
 import com.visoft.helper.service.persistance.entity.Application;
 import com.visoft.helper.service.persistance.entity.Folder;
 
+import java.util.List;
+
 public interface FolderService {
 
     Folder save(Folder toDto);
@@ -49,4 +51,8 @@ public interface FolderService {
     );
 
     void delete(Folder folder);
+
+    Long getNextValFolderCopySeq();
+
+    List<Folder> findAllByCopyIdAndIdNot(Long copyId, Long id);
 }

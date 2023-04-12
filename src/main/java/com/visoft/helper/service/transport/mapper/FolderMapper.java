@@ -23,6 +23,7 @@ public abstract class FolderMapper {
     @Autowired
     GeneralMapper generalMapper;
 
+    @Mapping(target = "copyId", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "nameEn", source = "nameEn")
     @Mapping(target = "nameHe", source = "nameHe")
@@ -37,6 +38,7 @@ public abstract class FolderMapper {
     @Mapping(target = "files", ignore = true)
     public abstract Folder toEntity(FolderCreateDto dto);
 
+    @Mapping(target = "copyId", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "nameEn", source = "nameEn")
     @Mapping(target = "nameHe", source = "nameHe")
@@ -59,6 +61,7 @@ public abstract class FolderMapper {
     @Mapping(target = "fileIds", expression = "java(generalMapper.toIds(folder.getFiles()))")
     public abstract FolderOutcomeDto toDto(Folder folder);
 
+    @Mapping(target = "additionApplicationIds", ignore = true)
     @Mapping(target = "nameEn", source = "folder.nameEn")
     @Mapping(target = "nameHe", source = "folder.nameHe")
     @Mapping(target = "nameRu", source = "folder.nameRu")

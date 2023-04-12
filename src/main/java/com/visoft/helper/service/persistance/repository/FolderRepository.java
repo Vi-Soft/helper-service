@@ -2,6 +2,9 @@ package com.visoft.helper.service.persistance.repository;
 
 import com.visoft.helper.service.persistance.entity.Application;
 import com.visoft.helper.service.persistance.entity.Folder;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface FolderRepository extends GeneralRepository<Folder> {
 
@@ -43,4 +46,9 @@ public interface FolderRepository extends GeneralRepository<Folder> {
             Folder parent,
             String nameHe
     );
+
+    List<Folder> findAllByCopyIdAndIdNot(Long copyId, Long id);
+
+    @Query(value = "SELECT nextval('folder_copy_seq')", nativeQuery = true)
+    Long getNextValFolderCopySeq();
 }

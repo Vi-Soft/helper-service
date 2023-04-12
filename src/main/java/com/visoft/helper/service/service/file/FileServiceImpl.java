@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -26,7 +28,18 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<File> findAllByCopyIdAndIdNot(Long copyId, Long id) {
+        return fileRepository.findAllByCopyIdAndIdNot(copyId, id);
+    }
+
+    @Override
     public void delete(File file) {
         fileRepository.delete(file);
+    }
+
+    @Override
+    public Long getNextValFileCopySeq() {
+        return fileRepository.getNextValFileCopySeq();
     }
 }

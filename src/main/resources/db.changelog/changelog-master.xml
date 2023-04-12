@@ -9,5 +9,6 @@
     <include file="v1/set_data.xml" relativeToChangelogFile="true"/>
     <include file="v1/set_ sequence.xml" relativeToChangelogFile="true"/>
     <include file="v1/2022-06-08-10-00-rns-4299-make-it-possible-to-create-files-not-inside-folders.xml" relativeToChangelogFile="true"/>
+    <include file="v1/2023-04-10-rns-5846-add-ability-to-create-folders-for-multiple-applications.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
