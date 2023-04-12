@@ -62,7 +62,7 @@ public class FolderFacadeImpl implements FolderFacade {
             folderService.findAllByCopyIdAndIdNot(copyId, folder.getId()).forEach(folderCopy -> {
                 try {
                     log.info("Start update folder copy {}", folderCopy.getId());
-                    update(folder, dto);
+                    update(folderCopy, dto);
                     log.info("Folder copy updated {}", folderCopy);
                 } catch (BadRequestException e) {
                     e.printStackTrace();
