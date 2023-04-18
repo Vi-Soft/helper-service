@@ -1,5 +1,7 @@
 package com.visoft.helper.service.facade.file;
 
+import com.visoft.helper.service.persistance.entity.Folder;
+import com.visoft.helper.service.service.folder.FolderService;
 import com.visoft.helper.service.transport.dto.file.FileDto;
 import com.visoft.helper.service.utils.FileSystem;
 import com.visoft.helper.service.persistance.entity.file.File;
@@ -29,6 +31,7 @@ public class FileFacadeImpl implements FileFacade {
     private final OrderNumberService orderNumberService;
     private final UrlBuilder urlBuilder;
     private final FileSystem fileSystem;
+    private final FolderService folderService;
 
     @Override
     public FileOutcomeDto create(FileCreateDto dto) {
@@ -55,12 +58,18 @@ public class FileFacadeImpl implements FileFacade {
     public FileOutcomeDto update(Long id, FileUpdateDto dto) {
         log.info("Update file {}, {}", id, dto);
         File file = fileService.findByIdUnsafe(id);
-        orderNumberService.recount(file, dto);
-        fileMapper.toEntity(dto, file);
-        FileOutcomeDto fileOutcomeDto = fileMapper.toDto(
-                fileService.save(file)
-        );
+        FileOutcomeDto fileOutcomeDto = update(file, dto);
         log.info("File updated {}", fileOutcomeDto);
+
+        final Long copyId = file.getCopyId();
+        if (copyId != null) {
+            fileService.findAllByCopyIdAndIdNot(copyId, file.getId()).forEach(fileCopy -> {
+                log.info("Start update file copy {}", fileCopy.getId());
+                update(fileCopy, dto);
+                log.info("File copy updated {}", fileCopy);
+            });
+        }
+
         return fileOutcomeDto;
     }
 
@@ -93,16 +102,50 @@ public class FileFacadeImpl implements FileFacade {
                         .collect(Collectors.toList());
     }
 
+    public FileOutcomeDto update(File file, FileUpdateDto dto) {
+        orderNumberService.recount(file, dto);
+        fileMapper.toEntity(dto, file);
+        return fileMapper.toDto(
+            fileService.save(file)
+        );
+    }
+
     private FileOutcomeDto create(FileCreateDto dto, boolean enableRecount) {
-        log.info("Create folder {}", dto);
+        log.info("Create file {}", dto);
         File file = fileMapper.toEntity(dto);
         if (enableRecount) {
             orderNumberService.recount(file);
         }
+
+        final Folder folder = file.getFolder();
+        if (folder.getCopyId() != null) {
+            final Long copyId = fileService.getNextValFileCopySeq();
+            file.setCopyId(copyId);
+
+            folderService.findAllByCopyIdAndIdNot(folder.getCopyId(), folder.getId()).forEach(folderCopy -> {
+                dto.setApplicationId(folderCopy.getApplication().getId());
+                dto.setFolderId(folderCopy.getId());
+                createFileCopy(dto, enableRecount, copyId);
+            });
+        }
+
         FileOutcomeDto fileOutcomeDto = fileMapper.toDto(
                 fileService.save(file)
         );
-        log.info("Folder created {}", fileOutcomeDto);
+        log.info("File created {}", fileOutcomeDto);
         return fileOutcomeDto;
+    }
+
+    private void createFileCopy(FileCreateDto dto, boolean enableRecount, Long copyId) {
+        log.info("Start create file copy {} for application {}", dto, dto.getApplicationId());
+        File fileCopy = fileMapper.toEntity(dto);
+        fileCopy.setCopyId(copyId);
+
+        if (enableRecount) {
+            orderNumberService.recount(fileCopy);
+        }
+
+        fileService.save(fileCopy);
+        log.info("File copy created {}", fileCopy);
     }
 }

@@ -1,5 +1,6 @@
 package com.visoft.helper.service.facade.folder;
 
+import com.visoft.helper.service.exception.BadRequestException;
 import com.visoft.helper.service.exception.folder.FolderAlreadyExistsException;
 import com.visoft.helper.service.persistance.entity.Application;
 import com.visoft.helper.service.persistance.entity.Folder;
@@ -13,6 +14,9 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 @Component
 @Setter(onMethod_ = @Autowired)
@@ -50,18 +54,37 @@ public class FolderFacadeImpl implements FolderFacade {
     public FolderOutcomeDto update(Long id, FolderUpdateDto dto) {
         log.info("Start update folder {}", id);
         Folder folder = folderService.findByIdUnsafe(id);
-        validateUpdate(folder, dto);
-        orderNumberService.recount(folder, dto);
-        folderMapper.toEntity(dto, folder);
-        FolderOutcomeDto folderOutcomeDto = folderMapper.toDto(
-                folderService.save(folder)
-        );
+        FolderOutcomeDto folderOutcomeDto = update(folder, dto);
         log.info("Folder updated {}", folderOutcomeDto);
+
+        final Long copyId = folder.getCopyId();
+        if (copyId != null) {
+            folderService.findAllByCopyIdAndIdNot(copyId, folder.getId()).forEach(folderCopy -> {
+                try {
+                    log.info("Start update folder copy {}", folderCopy.getId());
+                    update(folderCopy, dto);
+                    log.info("Folder copy updated {}", folderCopy);
+                } catch (BadRequestException e) {
+                    e.printStackTrace();
+                    log.warn("Couldn't update folder copy {}", folderCopy);
+                }
+            });
+        }
+
         return folderOutcomeDto;
     }
 
     private Folder getByIdUnsafe(Long id) {
         return folderService.findByIdUnsafe(id);
+    }
+
+    private FolderOutcomeDto update(Folder folder, FolderUpdateDto dto) {
+        validateUpdate(folder, dto);
+        orderNumberService.recount(folder, dto);
+        folderMapper.toEntity(dto, folder);
+        return folderMapper.toDto(
+            folderService.save(folder)
+        );
     }
 
     private FolderOutcomeDto create(FolderCreateDto dto, boolean enableRecount) {
@@ -71,11 +94,54 @@ public class FolderFacadeImpl implements FolderFacade {
         if (enableRecount) {
             orderNumberService.recount(folder);
         }
+
+        final Folder parent = folder.getParent();
+        final List<Long> additionApplicationIds = dto.getAdditionApplicationIds();
+        final boolean isParentHasCopies = parent != null && parent.getCopyId() != null;
+        final boolean isAdditionalApplicationsNotEmpty = !CollectionUtils.isEmpty(additionApplicationIds);
+
+        if (isParentHasCopies || isAdditionalApplicationsNotEmpty) {
+            final Long copyId = folderService.getNextValFolderCopySeq();
+            folder.setCopyId(copyId);
+
+            if (isParentHasCopies) {
+                folderService.findAllByCopyIdAndIdNot(parent.getCopyId(), parent.getId()).forEach(parentCopy -> {
+                    dto.setApplicationId(parentCopy.getApplication().getId());
+                    dto.setParentId(parentCopy.getId());
+                    createFolderCopy(dto, enableRecount, copyId);
+                });
+            } else {
+                additionApplicationIds.forEach(applicationId -> {
+                    dto.setApplicationId(applicationId);
+                    createFolderCopy(dto, enableRecount, copyId);
+                });
+            }
+        }
+
         FolderOutcomeDto folderOutcomeDto = folderMapper.toDto(
                 folderService.save(folder)
         );
         log.info("Folder created {}", folderOutcomeDto);
         return folderOutcomeDto;
+    }
+
+    private void createFolderCopy(FolderCreateDto dto, boolean enableRecount, Long copyId) {
+        try {
+            log.info("Start create folder copy {} for application {}", dto, dto.getApplicationId());
+            Folder folderCopy = folderMapper.toEntity(dto);
+            folderCopy.setCopyId(copyId);
+            validateCreation(folderCopy);
+
+            if (enableRecount) {
+                orderNumberService.recount(folderCopy);
+            }
+
+            folderService.save(folderCopy);
+            log.info("Folder copy created {}", folderCopy);
+        } catch (BadRequestException e) {
+            e.printStackTrace();
+            log.warn("Couldn't create folder copy for application {}", dto.getApplicationId());
+        }
     }
 
     private void validateUpdate(Folder folder, FolderUpdateDto dto) {

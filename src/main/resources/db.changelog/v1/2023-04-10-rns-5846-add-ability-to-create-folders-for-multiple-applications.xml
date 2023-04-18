@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="rns-5846-add-ability-to-create-folders-for-multiple-applications" author="yurii.ostrovskyi">
+        <addColumn tableName="folder">
+            <column name="copy_id" type="bigint">
+                <constraints nullable="true" unique="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="file">
+            <column name="copy_id" type="bigint">
+                <constraints nullable="true" unique="false"/>
+            </column>
+        </addColumn>
+        <createSequence sequenceName="folder_copy_seq"/>
+        <createSequence sequenceName="file_copy_seq"/>
+    </changeSet>
+</databaseChangeLog>

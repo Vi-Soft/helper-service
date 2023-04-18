@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -120,5 +122,16 @@ public class FolderServiceImpl implements FolderService {
     @Override
     public void delete(Folder folder) {
         folderRepository.delete(folder);
+    }
+
+    @Override
+    public Long getNextValFolderCopySeq() {
+        return folderRepository.getNextValFolderCopySeq();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Folder> findAllByCopyIdAndIdNot(Long copyId, Long id) {
+        return folderRepository.findAllByCopyIdAndIdNot(copyId, id);
     }
 }

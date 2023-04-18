@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -33,4 +34,7 @@ public class Folder extends OrderNumber {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "folder")
     private List<File> files = new ArrayList<>();
+
+    @Column(name = "copy_id")
+    private Long copyId;
 }
