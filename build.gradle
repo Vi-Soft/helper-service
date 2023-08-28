@@ -76,6 +76,7 @@ dependencies {
     implementation "io.jsonwebtoken:jjwt:${jwtVersion}"
     implementation "org.liquibase:liquibase-core"
     implementation 'ch.qos.logback:logback-core:1.2.10'
+    implementation 'de.siegmar:logback-gelf:2.0.0'
     implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
     compileOnly 'org.projectlombok:lombok'

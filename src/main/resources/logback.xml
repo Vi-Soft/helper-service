@@ -1,33 +1,32 @@
-<configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>
-                %d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n
-            </pattern>
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <!-- use Spring default values -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <appender name="GELF" class="de.siegmar.logbackgelf.GelfUdpAppender">
+        <graylogHost>127.0.0.1</graylogHost>
+        <graylogPort>12201</graylogPort>
+        <encoder class="de.siegmar.logbackgelf.GelfEncoder">
+            <includeLevelName>true</includeLevelName>
+            <staticField>app_name:Aconex-adapter</staticField>
+            <staticField>os_arch:${os.arch}</staticField>
+            <staticField>os_name:${os.name}</staticField>
+            <staticField>os_version:${os.version}</staticField>
         </encoder>
     </appender>
 
-    <property name="LOG_FILE" value="LogFile"/>
-    <property name="LOG_DIR" value="./log"/>
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/${LOG_FILE}.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- daily rollover -->
-            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.gz</fileNamePattern>
-
-            <!-- keep 30 days' worth of history capped at 3GB total size -->
-            <maxHistory>30</maxHistory>
-            <totalSizeCap>3GB</totalSizeCap>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n
-            </pattern>
-        </encoder>
+    <!-- Use AsyncAppender to prevent slowdowns -->
+    <appender name="ASYNC_GELF" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="GELF"/>
     </appender>
 
-    <root level="info">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILE"/>
+    <root>
+        <appender-ref ref="ASYNC_GELF"/>
+    </root>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
     </root>
 
 </configuration>
