@@ -9,7 +9,7 @@
         <graylogPort>12201</graylogPort>
         <encoder class="de.siegmar.logbackgelf.GelfEncoder">
             <includeLevelName>true</includeLevelName>
-            <staticField>app_name:Aconex-adapter</staticField>
+            <staticField>app_name:helper-service</staticField>
             <staticField>os_arch:${os.arch}</staticField>
             <staticField>os_name:${os.name}</staticField>
             <staticField>os_version:${os.version}</staticField>
