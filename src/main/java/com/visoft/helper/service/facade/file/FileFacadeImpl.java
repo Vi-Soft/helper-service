@@ -91,6 +91,8 @@ public class FileFacadeImpl implements FileFacade {
     }
 
     private List<FileDto> list(Language language, List<String> fileNames) {
+        log.error("language: " + language);
+        log.error("fileNames: " + fileNames.size());
         return
                 fileNames.stream()
                         .map(fileName ->

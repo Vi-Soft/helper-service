@@ -3,6 +3,7 @@ package com.visoft.helper.service.utils;
 import com.visoft.helper.service.transport.dto.Language;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ import java.util.stream.Stream;
 import org.apache.commons.io.IOUtils;
 
 @Setter(onMethod_ = @Autowired)
+@Slf4j
 @Component
 public class FileSystem {
 
@@ -36,10 +38,15 @@ public class FileSystem {
     }
 
     public List<String> list(Language language) {
+        File[] files = new File(mkdirIfDoesntExists(language)).listFiles();
+        log.error("length: " + files.length);
+        Arrays.stream(files).forEach(file -> {
+            log.error(file.getAbsolutePath());
+        });
         return
                 Stream.of(
                         Objects.requireNonNull(
-                                new File(mkdirIfDoesntExists(language)).listFiles())
+                            files)
                 )
                         .filter(file -> !file.isDirectory())
                         .map(File::getName)
@@ -73,6 +80,7 @@ public class FileSystem {
 
     @SneakyThrows
     private String mkdirIfDoesntExists(Language language) {
+        log.error("path: " + Paths.get(dirStructureCreatorProperties.appResourcesPath(), language.getDescription()));
         final Path path = Paths.get(dirStructureCreatorProperties.appResourcesPath(), language.getDescription());
         if (!path.toFile().exists()) {
             Files.createDirectories(path);
