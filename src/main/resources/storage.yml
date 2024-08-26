@@ -2,7 +2,7 @@ app:
   enable-prod-folder: true
   local-folder: ${user.home}
   prod-folder: /home/visrvadmin
-  local-resources-folder: vi-soft/app/front-end/build
+  local-resources-folder: vi-soft/helper-service/build
   api-folder: doc/help
   protocol: http
   host: visoftapp1.visoft-eng.com
