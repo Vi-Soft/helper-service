@@ -27,7 +27,10 @@ public class CorsConfiguration implements WebMvcConfigurer {
                     "http://visoftapp1.visoft-eng.com:4141",
                     "http://visoftapp1.visoft-eng.com:3000",
                     "http://localhost:4141",
-                    "http://localhost:3002"
+                    "http://localhost:3002",
+                    "http://visoft-test.visoft-eng.com:81",
+                    "http://visoft-test.visoft-eng.com:82",
+                    "http://visoft-test.visoft-eng.com:83"
                 ).allowedMethods(allowedMethods())
                 .allowedHeaders(allowedHeaders())
                 .exposedHeaders(exposedHeaders());
